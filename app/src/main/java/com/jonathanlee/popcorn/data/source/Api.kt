@@ -1,6 +1,7 @@
 package com.jonathanlee.popcorn.data.source
 
 import com.jonathanlee.popcorn.data.source.task.MovieDetailTask
+import com.jonathanlee.popcorn.data.source.task.MovieListTask
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -44,8 +45,13 @@ object Api {
             .build()
     }
 
-    fun provideMovieTask(): MovieDetailTask {
+    fun provideMovieDetailTask(): MovieDetailTask {
         val retrofit = provideRetrofit()
         return retrofit.create(MovieDetailTask::class.java)
+    }
+
+    fun provideMovieListTask(): MovieListTask {
+        val retrofit = provideRetrofit()
+        return retrofit.create(MovieListTask::class.java)
     }
 }

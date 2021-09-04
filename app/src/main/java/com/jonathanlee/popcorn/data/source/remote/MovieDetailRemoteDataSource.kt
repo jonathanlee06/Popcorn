@@ -7,7 +7,7 @@ import com.jonathanlee.popcorn.data.source.task.MovieDetailTask
 import retrofit2.Response
 
 class MovieDetailRemoteDataSource : MovieDetailTask {
-    private val movieTask = Api.provideMovieTask()
+    private val movieTask = Api.provideMovieDetailTask()
 
     override suspend fun fetchVideos(id: Int): Response<VideoListResponse> {
         return movieTask.fetchVideos(id)
