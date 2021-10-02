@@ -9,11 +9,13 @@ import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Tv
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.databinding.ItemListBinding
+import com.jonathanlee.popcorn.util.AdapterItemClickListener
 
 class TvAdapter : RecyclerView.Adapter<TvAdapter.TvShowViewHolder>() {
 
     private val tvShowList = ArrayList<Tv>()
     private var context: Context? = null
+    private var onItemClickListener: AdapterItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -27,6 +29,7 @@ class TvAdapter : RecyclerView.Adapter<TvAdapter.TvShowViewHolder>() {
     override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
         val binding = holder.binding
         val data = tvShowList[position]
+        binding.root.setOnClickListener { onItemClickListener?.onItemClick(it, position) }
         binding.tvMovieTitle.text = data.name
         context?.let {
             if (data.poster_path != null) {
@@ -43,6 +46,10 @@ class TvAdapter : RecyclerView.Adapter<TvAdapter.TvShowViewHolder>() {
 
     override fun getItemCount(): Int {
         return tvShowList.size
+    }
+
+    fun setOnItemClickListener(listener: AdapterItemClickListener) {
+        onItemClickListener = listener
     }
 
     fun updateListData(list: ArrayList<Tv>) {

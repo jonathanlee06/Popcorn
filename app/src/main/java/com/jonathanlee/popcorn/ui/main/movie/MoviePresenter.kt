@@ -26,7 +26,7 @@ class MoviePresenter(
                 if (request.isSuccessful) {
                     val result = request.body() as MovieListResponse
                     val movieData = result.results as ArrayList<Movie>
-                    Log.d("getMovieList", "getMovieList: response=${movieData[0].title}")
+                    Log.d("getMovieList", "getMovieList: response=${movieData[0].overview}")
                     withContext(Dispatchers.Main) {
                         view.onGetMovieListSuccess(movieData)
                     }

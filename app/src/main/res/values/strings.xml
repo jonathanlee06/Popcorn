@@ -3,4 +3,9 @@
     <string name="menu_movie">Movie</string>
     <string name="menu_tv">TV</string>
     <string name="menu_star">Star</string>
+    <string name="page_detail_release_date">Release Date: %s</string>
+    <string name="page_detail_genre">Genre</string>
+    <string name="page_detail_trailer">Trailers</string>
+    <string name="page_detail_synopsis">Synopsis</string>
+    <string name="page_detail_reviews">Reviews</string>
 </resources>

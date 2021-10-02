@@ -29,7 +29,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() 
     override fun onBindViewHolder(holder: MoviePosterViewHolder, position: Int) {
         val binding = holder.binding
         val data = movieList[position]
-        binding.ivPoster.setOnClickListener {
+        binding.root.setOnClickListener {
             onItemClickListener?.onItemClick(it, position)
         }
         binding.tvMovieTitle.text = data.title

@@ -11,4 +11,6 @@
     <color name="preview">#b0abb0</color>
     <color name="white">#ffffff</color>
     <color name="cay">#00BCD4</color>
+    <color name="transparent">#00000000</color>
+    <color name="color_282828">#282828</color>
 </resources>

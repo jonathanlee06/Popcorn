@@ -5,12 +5,15 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jonathanlee.popcorn.R
+import com.jonathanlee.popcorn.data.model.Details
 import com.jonathanlee.popcorn.data.model.Movie
 import com.jonathanlee.popcorn.data.repository.Repository
 import com.jonathanlee.popcorn.databinding.FragmentMovieBinding
 import com.jonathanlee.popcorn.ui.base.BaseFragment
+import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
+import com.jonathanlee.popcorn.util.extension.navigateTo
 
 class MovieFragment : BaseFragment(), MovieContract.View {
 
@@ -36,7 +39,7 @@ class MovieFragment : BaseFragment(), MovieContract.View {
         movieListAdapter.updateListData(movieList)
         movieListAdapter.setOnItemClickListener(object : AdapterItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                //throw RuntimeException("Firebase Test Crash")
+                goToDetail(position)
             }
         })
         if (binding.srlMovie.isRefreshing) {
@@ -50,6 +53,18 @@ class MovieFragment : BaseFragment(), MovieContract.View {
             srlMovie.visibility = View.GONE
             rlError.visibility = View.VISIBLE
         }
+    }
+
+    private fun goToDetail(position: Int) {
+        val movieAtPosition = movieList[position]
+        val details = Details(
+            backdropPath = movieAtPosition.backdrop_path,
+            title = movieAtPosition.title,
+            releaseDate = movieAtPosition.release_date,
+            summary = movieAtPosition.overview,
+            videos = movieAtPosition.videos
+        )
+        navigateTo(DetailActivity.getStartIntent(requireContext(), details))
     }
 
     private fun initPresenter() {
