@@ -20,13 +20,12 @@ class MainActivity : AppCompatActivity() {
     private fun initView() {
         binding.vpMain.apply {
             adapter = MainAdapter(supportFragmentManager, lifecycle)
-            offscreenPageLimit = 3
+            offscreenPageLimit = 2
             applyOnPageSelected { binding.bottomNavigation.menu.getItem(it).isChecked = true }
             binding.bottomNavigation.setOnItemSelectedListener {
                 when (it.itemId) {
                     R.id.action_one -> currentItem = 0
                     R.id.action_two -> currentItem = 1
-                    R.id.action_three -> currentItem = 2
                 }
                 true
             }

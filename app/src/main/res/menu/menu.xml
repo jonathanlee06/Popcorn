@@ -13,10 +13,10 @@
         android:icon="@drawable/ic_live_tv_24dp"
         android:title="@string/menu_tv"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_three"
-        android:enabled="true"
-        android:icon="@drawable/ic_star_24dp"
-        android:title="@string/menu_star"
-        app:showAsAction="ifRoom" />
+    <!--    <item-->
+    <!--        android:id="@+id/action_three"-->
+    <!--        android:enabled="true"-->
+    <!--        android:icon="@drawable/ic_star_24dp"-->
+    <!--        android:title="@string/menu_star"-->
+    <!--        app:showAsAction="ifRoom" />-->
 </menu>

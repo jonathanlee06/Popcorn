@@ -29,6 +29,10 @@ class MovieFragment : BaseFragment(), MovieContract.View {
         movieList.clear()
         movieList.addAll(movies)
         movieListAdapter.updateListData(movieList)
+        if (binding.srlMovie.isRefreshing) {
+            binding.srlMovie.isRefreshing = false
+            binding.rvMovie.getChildAt(0).overScrollMode = View.OVER_SCROLL_ALWAYS
+        }
     }
 
     override fun onGetMovieListFailure() {
@@ -49,6 +53,10 @@ class MovieFragment : BaseFragment(), MovieContract.View {
         binding.rvMovie.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = movieListAdapter
+        }
+        binding.srlMovie.setOnRefreshListener {
+            binding.rvMovie.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER
+            presenter.getMovieList()
         }
     }
 }

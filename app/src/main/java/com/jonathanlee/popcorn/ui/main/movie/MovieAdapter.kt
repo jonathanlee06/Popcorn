@@ -28,14 +28,16 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() 
         val binding = holder.binding
         val data = movieList[position]
         binding.tvMovieTitle.text = data.title
-        if (data.poster_path != null && context != null) {
-            val imagePath = Api.getPosterPath(data.poster_path)
-            Glide.with(context!!)
-                .load(imagePath)
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(binding.ivPoster)
-        } else {
-            Glide.with(context!!).clear(binding.ivPoster)
+        context?.let {
+            if (data.poster_path != null) {
+                val imagePath = Api.getPosterPath(data.poster_path)
+                Glide.with(it)
+                    .load(imagePath)
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(binding.ivPoster)
+            } else {
+                Glide.with(it).clear(binding.ivPoster)
+            }
         }
     }
 

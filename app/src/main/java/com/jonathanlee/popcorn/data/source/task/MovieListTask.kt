@@ -14,7 +14,7 @@ interface MovieListTask {
      *
      *  @param [page] Specify the page of results to query.
      *
-     *  @return [DiscoverMovieResponse] response
+     *  @return [MovieListResponse] response
      */
     @GET("/3/discover/movie?language=en&sort_by=popularity.desc")
     suspend fun fetchMovie(@Query("page") page: Int): Response<MovieListResponse>
