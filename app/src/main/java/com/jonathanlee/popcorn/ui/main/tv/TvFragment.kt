@@ -61,7 +61,7 @@ class TvFragment : BaseFragment(), TvContract.View {
 
     private fun initPresenter() {
         presenter = TvPresenter(
-            Repository.provideTvShowListRepository(),
+            Repository.provideDiscoverRepository(),
             this,
             lifecycleScope
         )

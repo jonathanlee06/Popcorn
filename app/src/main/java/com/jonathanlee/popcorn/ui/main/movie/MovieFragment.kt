@@ -69,7 +69,7 @@ class MovieFragment : BaseFragment(), MovieContract.View {
 
     private fun initPresenter() {
         presenter = MoviePresenter(
-            Repository.provideMovieListRepository(),
+            Repository.provideDiscoverRepository(),
             this,
             lifecycleScope
         )

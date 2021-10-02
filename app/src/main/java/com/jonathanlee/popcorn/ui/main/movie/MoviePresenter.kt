@@ -3,14 +3,14 @@ package com.jonathanlee.popcorn.ui.main.movie
 import android.util.Log
 import com.jonathanlee.popcorn.data.model.Movie
 import com.jonathanlee.popcorn.data.model.network.MovieListResponse
-import com.jonathanlee.popcorn.data.repository.MovieListRepository
+import com.jonathanlee.popcorn.data.repository.DiscoverRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MoviePresenter(
-    private val movieListRepository: MovieListRepository,
+    private val discoverRepository: DiscoverRepository,
     private val view: MovieContract.View,
     private val scope: CoroutineScope
 ) : MovieContract.Presenter {
@@ -22,7 +22,7 @@ class MoviePresenter(
     override fun getMovieList() {
         scope.launch(Dispatchers.IO) {
             try {
-                val request = movieListRepository.fetchMovie(1)
+                val request = discoverRepository.fetchMovie(1)
                 if (request.isSuccessful) {
                     val result = request.body() as MovieListResponse
                     val movieData = result.results as ArrayList<Movie>
