@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "126847181348",
+    "project_id": "popcorn-movie-app",
+    "storage_bucket": "popcorn-movie-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126847181348:android:bfaf624c2ef97a9f7d2eb1",
+        "android_client_info": {
+          "package_name": "com.jonathanlee.popcorn.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126847181348-nqhhgl4b2pvdgf9k0jm619s3brf9i9h8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4I4mXDe-AHoW6PmstfdCCUrHdcITBsos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126847181348-nqhhgl4b2pvdgf9k0jm619s3brf9i9h8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,13 +21,24 @@ class MoviePresenter(
 
     override fun getMovieList() {
         scope.launch(Dispatchers.IO) {
-            val request = movieListRepository.fetchMovie(1)
-            if (request.isSuccessful) {
-                val result = request.body() as MovieListResponse
-                val movieData = result.results as ArrayList<Movie>
-                Log.d("getMovieList", "getMovieList: response=${movieData[0].title}")
+            try {
+                val request = movieListRepository.fetchMovie(1)
+                if (request.isSuccessful) {
+                    val result = request.body() as MovieListResponse
+                    val movieData = result.results as ArrayList<Movie>
+                    Log.d("getMovieList", "getMovieList: response=${movieData[0].title}")
+                    withContext(Dispatchers.Main) {
+                        view.onGetMovieListSuccess(movieData)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        view.onGetMovieListFailure()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("getMovieList", "getMovieList: no internet, error=${e.message}")
                 withContext(Dispatchers.Main) {
-                    view.onGetMovieListSuccess(movieData)
+                    view.onGetMovieListFailure()
                 }
             }
         }

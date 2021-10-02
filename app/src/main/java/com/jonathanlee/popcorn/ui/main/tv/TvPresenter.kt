@@ -1,5 +1,6 @@
 package com.jonathanlee.popcorn.ui.main.tv
 
+import android.util.Log
 import com.jonathanlee.popcorn.data.model.Tv
 import com.jonathanlee.popcorn.data.model.network.TvShowListResponse
 import com.jonathanlee.popcorn.data.repository.TvShowListRepository
@@ -20,12 +21,23 @@ class TvPresenter(
 
     override fun getTvShowList() {
         scope.launch(Dispatchers.IO) {
-            val request = tvShowListRepository.fetchTvShow(1)
-            if (request.isSuccessful) {
-                val result = request.body() as TvShowListResponse
-                val tvShowData = result.results as ArrayList<Tv>
+            try {
+                val request = tvShowListRepository.fetchTvShow(1)
+                if (request.isSuccessful) {
+                    val result = request.body() as TvShowListResponse
+                    val tvShowData = result.results as ArrayList<Tv>
+                    withContext(Dispatchers.Main) {
+                        view.onGetTvShowListSuccess(tvShowData)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        view.onGetTvShowListFailure()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("getTvShowList", "getTvShowList: no internet, error=${e.message}")
                 withContext(Dispatchers.Main) {
-                    view.onGetTvShowListSuccess(tvShowData)
+                    view.onGetTvShowListFailure()
                 }
             }
         }

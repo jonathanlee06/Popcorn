@@ -9,11 +9,13 @@ import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Movie
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.databinding.ItemListBinding
+import com.jonathanlee.popcorn.util.AdapterItemClickListener
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() {
 
     private val movieList = ArrayList<Movie>()
     private var context: Context? = null
+    private var onItemClickListener: AdapterItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviePosterViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -27,6 +29,9 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() 
     override fun onBindViewHolder(holder: MoviePosterViewHolder, position: Int) {
         val binding = holder.binding
         val data = movieList[position]
+        binding.ivPoster.setOnClickListener {
+            onItemClickListener?.onItemClick(it, position)
+        }
         binding.tvMovieTitle.text = data.title
         context?.let {
             if (data.poster_path != null) {
@@ -43,6 +48,10 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() 
 
     override fun getItemCount(): Int {
         return movieList.size
+    }
+
+    fun setOnItemClickListener(listener: AdapterItemClickListener) {
+        onItemClickListener = listener
     }
 
     fun getItem(position: Int): Movie {

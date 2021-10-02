@@ -35,7 +35,7 @@ class TvFragment : BaseFragment(), TvContract.View {
     }
 
     override fun onGetTvShowListFailure() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     private fun initPresenter() {

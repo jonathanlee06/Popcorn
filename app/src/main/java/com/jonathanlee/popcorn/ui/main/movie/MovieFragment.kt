@@ -9,6 +9,7 @@ import com.jonathanlee.popcorn.data.model.Movie
 import com.jonathanlee.popcorn.data.repository.Repository
 import com.jonathanlee.popcorn.databinding.FragmentMovieBinding
 import com.jonathanlee.popcorn.ui.base.BaseFragment
+import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
 
 class MovieFragment : BaseFragment(), MovieContract.View {
@@ -26,9 +27,18 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     }
 
     override fun onGetMovieListSuccess(movies: ArrayList<Movie>) {
+        binding.apply {
+            srlMovie.visibility = View.VISIBLE
+            rlError.visibility = View.GONE
+        }
         movieList.clear()
         movieList.addAll(movies)
         movieListAdapter.updateListData(movieList)
+        movieListAdapter.setOnItemClickListener(object : AdapterItemClickListener {
+            override fun onItemClick(view: View, position: Int) {
+                //throw RuntimeException("Firebase Test Crash")
+            }
+        })
         if (binding.srlMovie.isRefreshing) {
             binding.srlMovie.isRefreshing = false
             binding.rvMovie.getChildAt(0).overScrollMode = View.OVER_SCROLL_ALWAYS
@@ -36,7 +46,10 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     }
 
     override fun onGetMovieListFailure() {
-        TODO("Not yet implemented")
+        binding.apply {
+            srlMovie.visibility = View.GONE
+            rlError.visibility = View.VISIBLE
+        }
     }
 
     private fun initPresenter() {
