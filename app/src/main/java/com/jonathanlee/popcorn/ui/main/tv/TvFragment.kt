@@ -50,6 +50,7 @@ class TvFragment : BaseFragment(), TvContract.View {
     private fun goToDetail(position: Int) {
         val tvAtPosition = tvShowList[position]
         val details = Details(
+            id = tvAtPosition.genre_ids,
             backdropPath = tvAtPosition.backdrop_path,
             title = tvAtPosition.name,
             releaseDate = tvAtPosition.first_air_date,

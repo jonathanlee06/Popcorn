@@ -1,20 +1,21 @@
 package com.jonathanlee.popcorn.data.repository
 
+import com.jonathanlee.popcorn.data.model.network.GenreListResponse
 import com.jonathanlee.popcorn.data.model.network.ReviewListResponse
 import com.jonathanlee.popcorn.data.model.network.VideoListResponse
 import com.jonathanlee.popcorn.data.source.remote.MovieDetailRemoteDataSource
 import com.jonathanlee.popcorn.data.source.task.MovieDetailTask
 import retrofit2.Response
 
-class MovieDetailRepository private constructor(
+class MovieRepository private constructor(
     private val remoteDataSource: MovieDetailRemoteDataSource
 ) : MovieDetailTask {
 
     companion object {
-        private var INSTANCE: MovieDetailRepository? = null
+        private var INSTANCE: MovieRepository? = null
 
-        fun getInstance(remoteDataSource: MovieDetailRemoteDataSource): MovieDetailRepository {
-            return INSTANCE ?: MovieDetailRepository(remoteDataSource)
+        fun getInstance(remoteDataSource: MovieDetailRemoteDataSource): MovieRepository {
+            return INSTANCE ?: MovieRepository(remoteDataSource)
                 .apply { INSTANCE = this }
         }
 
@@ -22,7 +23,7 @@ class MovieDetailRepository private constructor(
          * Used to force [getInstance] to create a new instance
          * next time it's called.
          */
-        fun newInstance(remoteDataSource: MovieDetailRemoteDataSource): MovieDetailRepository {
+        fun newInstance(remoteDataSource: MovieDetailRemoteDataSource): MovieRepository {
             INSTANCE = null
             return getInstance(remoteDataSource)
         }
@@ -34,5 +35,9 @@ class MovieDetailRepository private constructor(
 
     override suspend fun fetchReviews(id: Int): Response<ReviewListResponse> {
         return remoteDataSource.fetchReviews(id)
+    }
+
+    override suspend fun fetchMovieGenres(): Response<GenreListResponse> {
+        return remoteDataSource.fetchMovieGenres()
     }
 }

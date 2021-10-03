@@ -6,8 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.chip.Chip
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Details
 import com.jonathanlee.popcorn.databinding.ActivityDetailBinding
@@ -52,13 +55,24 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         }
     }
 
+    override fun setGenres(genres: ArrayList<String>) {
+        for (genre in genres) {
+            val chip = Chip(this)
+            chip.text = genre
+            chip.setTextColor(ContextCompat.getColor(this, R.color.white))
+            chip.setChipBackgroundColorResource(R.color.colorPrimary)
+            binding.chipGenre.addView(chip)
+        }
+    }
+
     private fun initData() {
         details = intent.getParcelableExtra(EXTRA_DETAILS)
         presenter.getBackdropImage(details?.backdropPath)
+        details?.id?.let { presenter.getGenres(it) }
     }
 
     private fun initPresenter() {
-        presenter = DetailPresenter(this)
+        presenter = DetailPresenter(view = this, scope = lifecycleScope)
     }
 
     private fun initView() {

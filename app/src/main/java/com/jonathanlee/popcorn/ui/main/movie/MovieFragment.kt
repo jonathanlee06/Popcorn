@@ -58,6 +58,7 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     private fun goToDetail(position: Int) {
         val movieAtPosition = movieList[position]
         val details = Details(
+            id = movieAtPosition.genre_ids,
             backdropPath = movieAtPosition.backdrop_path,
             title = movieAtPosition.title,
             releaseDate = movieAtPosition.release_date,

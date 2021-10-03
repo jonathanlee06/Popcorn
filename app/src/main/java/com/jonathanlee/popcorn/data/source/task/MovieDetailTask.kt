@@ -1,5 +1,6 @@
 package com.jonathanlee.popcorn.data.source.task
 
+import com.jonathanlee.popcorn.data.model.network.GenreListResponse
 import com.jonathanlee.popcorn.data.model.network.ReviewListResponse
 import com.jonathanlee.popcorn.data.model.network.VideoListResponse
 import retrofit2.Response
@@ -30,4 +31,14 @@ interface MovieDetailTask {
      */
     @GET("/3/movie/{movie_id}/reviews")
     suspend fun fetchReviews(@Path("movie_id") id: Int): Response<ReviewListResponse>
+
+    /**
+     * [Movie Genre](https://developers.themoviedb.org/3/genres/get-movie-list)
+     *
+     * Get the genres for a movie.
+     *
+     * @return [ReviewListResponse] response
+     */
+    @GET("/3/genre/movie/list")
+    suspend fun fetchMovieGenres(): Response<GenreListResponse>
 }

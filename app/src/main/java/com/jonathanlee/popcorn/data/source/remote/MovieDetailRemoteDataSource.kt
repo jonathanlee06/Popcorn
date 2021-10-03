@@ -1,5 +1,6 @@
 package com.jonathanlee.popcorn.data.source.remote
 
+import com.jonathanlee.popcorn.data.model.network.GenreListResponse
 import com.jonathanlee.popcorn.data.model.network.ReviewListResponse
 import com.jonathanlee.popcorn.data.model.network.VideoListResponse
 import com.jonathanlee.popcorn.data.source.Api
@@ -15,5 +16,9 @@ class MovieDetailRemoteDataSource : MovieDetailTask {
 
     override suspend fun fetchReviews(id: Int): Response<ReviewListResponse> {
         return movieTask.fetchReviews(id)
+    }
+
+    override suspend fun fetchMovieGenres(): Response<GenreListResponse> {
+        return movieTask.fetchMovieGenres()
     }
 }

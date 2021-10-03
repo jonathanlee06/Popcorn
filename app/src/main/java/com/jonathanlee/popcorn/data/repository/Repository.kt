@@ -4,8 +4,8 @@ import com.jonathanlee.popcorn.data.source.remote.DiscoverRemoteDataSource
 import com.jonathanlee.popcorn.data.source.remote.MovieDetailRemoteDataSource
 
 object Repository {
-    fun provideMovieDetailRepository(): MovieDetailRepository {
-        return MovieDetailRepository.getInstance(MovieDetailRemoteDataSource())
+    fun provideMovieDetailRepository(): MovieRepository {
+        return MovieRepository.getInstance(MovieDetailRemoteDataSource())
     }
 
     fun provideDiscoverRepository(): DiscoverRepository {

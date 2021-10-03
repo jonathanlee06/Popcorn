@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Details(
+    val id: List<Int>,
     val backdropPath: String?,
     val title: String,
     val tagline: String? = null,
