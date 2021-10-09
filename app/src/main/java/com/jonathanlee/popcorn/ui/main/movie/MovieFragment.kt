@@ -22,6 +22,7 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     override lateinit var presenter: MovieContract.Presenter
     private lateinit var movieListAdapter: MovieAdapter
     private val movieList: ArrayList<Movie> = ArrayList()
+    private var page: Int = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,14 +30,12 @@ class MovieFragment : BaseFragment(), MovieContract.View {
         initPresenter()
     }
 
-    override fun onGetMovieListSuccess(movies: ArrayList<Movie>) {
+    override fun onGetMovieListSuccess(page: Int, movies: ArrayList<Movie>) {
         binding.apply {
             srlMovie.visibility = View.VISIBLE
             rlError.visibility = View.GONE
         }
-        movieList.clear()
-        movieList.addAll(movies)
-        movieListAdapter.updateListData(movieList)
+        movieListAdapter.updateListData(page, movies)
         movieListAdapter.setOnItemClickListener(object : AdapterItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 goToDetail(position)
@@ -55,17 +54,33 @@ class MovieFragment : BaseFragment(), MovieContract.View {
         }
     }
 
+    override fun addLoadMore() {
+        movieListAdapter.addLoadMore()
+    }
+
+    override fun removeLoadMore() {
+        movieListAdapter.removeLoadMore()
+    }
+
     private fun goToDetail(position: Int) {
-        val movieAtPosition = movieList[position]
+        val movieAtPosition = movieListAdapter.getItem(position) ?: return
         val details = Details(
             id = movieAtPosition.genre_ids,
+            movieId = movieAtPosition.id,
             backdropPath = movieAtPosition.backdrop_path,
             title = movieAtPosition.title,
             releaseDate = movieAtPosition.release_date,
             summary = movieAtPosition.overview,
-            videos = movieAtPosition.videos
+            videos = movieAtPosition.videos,
+            isMovie = true
         )
-        navigateTo(DetailActivity.getStartIntent(requireContext(), details))
+        navigateTo(
+            DetailActivity.getStartIntent(
+                requireContext(),
+                details,
+                DetailActivity.ENTRY_FROM_MOVIE
+            )
+        )
     }
 
     private fun initPresenter() {
@@ -74,18 +89,25 @@ class MovieFragment : BaseFragment(), MovieContract.View {
             this,
             lifecycleScope
         )
-        presenter.getMovieList()
+        presenter.getMovieList(page)
     }
 
     private fun initView() {
         movieListAdapter = MovieAdapter()
+        val listLayoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvMovie.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = listLayoutManager
             adapter = movieListAdapter
+            setOnScrollChangeListener { v, _, _, _, _ ->
+                if (!v.canScrollVertically(1)) {
+                    presenter.loadMore()
+                }
+            }
         }
         binding.srlMovie.setOnRefreshListener {
             binding.rvMovie.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER
-            presenter.getMovieList()
+            presenter.resetPagination()
+            presenter.getMovieList(page)
         }
     }
 }

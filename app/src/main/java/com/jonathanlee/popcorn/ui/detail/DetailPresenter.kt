@@ -2,19 +2,22 @@ package com.jonathanlee.popcorn.ui.detail
 
 import android.util.Log
 import com.google.gson.Gson
+import com.jonathanlee.popcorn.data.model.Cast
+import com.jonathanlee.popcorn.data.model.Details
+import com.jonathanlee.popcorn.data.model.Genre
+import com.jonathanlee.popcorn.data.model.Video
+import com.jonathanlee.popcorn.data.model.network.CastListResponse
 import com.jonathanlee.popcorn.data.model.network.GenreListResponse
-import com.jonathanlee.popcorn.data.repository.MovieRepository
+import com.jonathanlee.popcorn.data.model.network.VideoListResponse
+import com.jonathanlee.popcorn.data.repository.DetailRepository
 import com.jonathanlee.popcorn.data.repository.Repository
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.util.SharedPreferencesUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class DetailPresenter(
     private val view: DetailContract.View,
-    private val movieRepository: MovieRepository = Repository.provideMovieDetailRepository(),
+    private val detailRepository: DetailRepository = Repository.provideMovieDetailRepository(),
     private val scope: CoroutineScope
 ) : DetailContract.Presenter {
 
@@ -26,33 +29,115 @@ class DetailPresenter(
         private const val MOVIE_GENRE_LIST = "movieGenre"
     }
 
+    override fun getDetails(details: Details, entry: Int) {
+        scope.launch(Dispatchers.IO) {
+            async { getBackdropImage(details.backdropPath) }
+            async { getCasts(details.movieId, entry) }
+            async { getGenres(details.id) }
+            async { getVideos(details.movieId, entry) }
+        }
+    }
+
     override fun getBackdropImage(path: String?) {
-        val fullPath = Api.getBackdropPath(path)
-        view.setBackdropImage(fullPath)
+        scope.launch(Dispatchers.Main) {
+            val fullPath = Api.getBackdropPath(path)
+            view.setBackdropImage(fullPath)
+        }
+    }
+
+    override fun getCasts(id: Int, entry: Int) {
+        scope.launch(Dispatchers.IO) {
+            try {
+                val request = if (entry == DetailActivity.ENTRY_FROM_MOVIE) {
+                    detailRepository.fetchMovieCast(id)
+                } else {
+                    detailRepository.fetchTvCast(id)
+                }
+                if (request.isSuccessful) {
+                    val result = request.body() as CastListResponse
+                    Log.d("getCasts", "response success=${result.cast[0].profilePath}")
+                    val castResult = result.cast as ArrayList<Cast>
+                    withContext(Dispatchers.Main) {
+                        view.setCasts(castResult)
+                    }
+                } else {
+                    Log.d("getCasts", "response error=${request.errorBody()}")
+                }
+            } catch (e: Exception) {
+                Log.e("getCasts", "getGenres: error=${e.message}")
+            }
+        }
     }
 
     override fun getGenres(id: List<Int>) {
-        if (checkIfCacheEmpty()) {
-            scope.launch(Dispatchers.IO) {
+        scope.launch(Dispatchers.IO) {
+            if (checkIfCacheEmpty()) {
                 try {
-                    val request = movieRepository.fetchMovieGenres()
-                    if (request.isSuccessful) {
-                        val result = request.body() as GenreListResponse
-                        storeInCache(result)
+                    val movieRequestDeferred = async { detailRepository.fetchMovieGenres() }
+                    val tvRequestDeferred = async { detailRepository.fetchTvGenres() }
+                    val movieRequest = movieRequestDeferred.await()
+                    val tvRequest = tvRequestDeferred.await()
+                    if (movieRequest.isSuccessful && tvRequest.isSuccessful) {
+                        val movieResult = movieRequest.body()?.genres
+                        val tvResult = tvRequest.body()?.genres
+                        val joinResult = ArrayList<Genre>()
+                        if (movieResult != null && tvResult != null) {
+                            joinResult.apply {
+                                addAll(movieResult)
+                                addAll(tvResult)
+                            }
+                        }
+                        val genreResult = GenreListResponse(genres = joinResult.distinct())
+                        storeInCache(genreResult)
                         val fromCache = getFromCache(id)
                         withContext(Dispatchers.Main) {
                             view.setGenres(fromCache)
                         }
                     } else {
-                        Log.d("getGenres", "response error=${request.errorBody()}")
+                        Log.d("getGenres", "response error=${movieRequest.errorBody()}")
                     }
                 } catch (e: Exception) {
                     Log.e("getGenres", "getGenres: error=${e.message}")
                 }
+            } else {
+                Log.d("getGenres", "getGenres from cache")
+                withContext(Dispatchers.Main) {
+                    view.setGenres(getFromCache(id))
+                }
             }
-        } else {
-            Log.d("getGenres", "getGenres from cache")
-            view.setGenres(getFromCache(id))
+        }
+    }
+
+    override fun getVideos(id: Int, entry: Int) {
+        scope.launch(Dispatchers.IO) {
+            try {
+                val request = if (entry == DetailActivity.ENTRY_FROM_MOVIE) {
+                    detailRepository.fetchVideos(id)
+                } else {
+                    detailRepository.fetchTvVideos(id)
+                }
+                if (request.isSuccessful) {
+                    val result = request.body() as VideoListResponse
+                    val videoResult = result.results as ArrayList<Video>
+                    if (result.results.isNullOrEmpty()) {
+                        withContext(Dispatchers.Main) {
+                            view.setNoVideos()
+                        }
+                    } else {
+                        videoResult.forEach {
+                            it.thumbnailPath = Api.getYoutubeThumbnailPath(it.key)
+                            it.videoPath = Api.getYoutubeVideoPath(it.key)
+                        }
+                        withContext(Dispatchers.Main) {
+                            view.setVideos(videoResult)
+                        }
+                    }
+                } else {
+                    Log.d("getVideos", "response error=${request.errorBody()}")
+                }
+            } catch (e: Exception) {
+                Log.e("getVideos", "getGenres: error=${e.message}")
+            }
         }
     }
 

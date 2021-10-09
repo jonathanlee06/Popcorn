@@ -1,11 +1,11 @@
 package com.jonathanlee.popcorn.data.repository
 
+import com.jonathanlee.popcorn.data.source.remote.DetailRemoteDataSource
 import com.jonathanlee.popcorn.data.source.remote.DiscoverRemoteDataSource
-import com.jonathanlee.popcorn.data.source.remote.MovieDetailRemoteDataSource
 
 object Repository {
-    fun provideMovieDetailRepository(): MovieRepository {
-        return MovieRepository.getInstance(MovieDetailRemoteDataSource())
+    fun provideMovieDetailRepository(): DetailRepository {
+        return DetailRepository.getInstance(DetailRemoteDataSource())
     }
 
     fun provideDiscoverRepository(): DiscoverRepository {

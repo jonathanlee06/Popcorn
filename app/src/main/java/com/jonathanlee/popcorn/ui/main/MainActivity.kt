@@ -2,8 +2,12 @@ package com.jonathanlee.popcorn.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayoutMediator
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.databinding.ActivityMainBinding
+import com.jonathanlee.popcorn.ui.main.movie.MovieFragment
+import com.jonathanlee.popcorn.ui.main.tv.TvFragment
 import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.applyOnPageSelected
 
@@ -18,17 +22,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        val fragments: ArrayList<Fragment> = arrayListOf(
+            MovieFragment(),
+            TvFragment()
+        )
         binding.vpMain.apply {
-            adapter = MainAdapter(supportFragmentManager, lifecycle)
+            adapter = MainAdapter(fragments, this@MainActivity)
             offscreenPageLimit = 2
             applyOnPageSelected { binding.bottomNavigation.menu.getItem(it).isChecked = true }
-            binding.bottomNavigation.setOnItemSelectedListener {
-                when (it.itemId) {
-                    R.id.action_one -> currentItem = 0
-                    R.id.action_two -> currentItem = 1
-                }
-                true
-            }
         }
+        TabLayoutMediator(binding.tab, binding.vpMain) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.menu_movie)
+                1 -> tab.text = getString(R.string.menu_tv)
+            }
+        }.attach()
     }
 }

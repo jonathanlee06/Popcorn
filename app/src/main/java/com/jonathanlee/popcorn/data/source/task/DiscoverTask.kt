@@ -17,7 +17,7 @@ interface DiscoverTask {
      *
      *  @return [MovieListResponse] response
      */
-    @GET("/3/discover/movie?language=en&sort_by=popularity.desc")
+    @GET("/3/discover/movie?language=en&sort_by=popularity.desc&primary_release_year=2021")
     suspend fun fetchMovie(@Query("page") page: Int): Response<MovieListResponse>
 
     /**
@@ -29,6 +29,6 @@ interface DiscoverTask {
      *
      *  @return [TvShowListResponse] response
      */
-    @GET("/3/discover/tv?language=en&sort_by=popularity.desc")
+    @GET("/3/discover/tv?language=en&sort_by=popularity.desc&primary_release_year=2021")
     suspend fun fetchTvShow(@Query("page") page: Int): Response<TvShowListResponse>
 }

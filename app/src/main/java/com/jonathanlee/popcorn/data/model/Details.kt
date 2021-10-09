@@ -6,10 +6,12 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Details(
     val id: List<Int>,
+    val movieId: Int = 0,
     val backdropPath: String?,
     val title: String,
     val tagline: String? = null,
     val releaseDate: String?,
     val summary: String,
-    var videos: List<Video>? = ArrayList()
+    var videos: List<Video>? = ArrayList(),
+    val isMovie: Boolean
 ) : Parcelable

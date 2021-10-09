@@ -20,13 +20,19 @@
             app:expandedTitleTextAppearance="@style/CollapsedExpandedTitleText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/iv_backdrop"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@drawable/test"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:src="@drawable/test"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
+
+            </FrameLayout>
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mtb_title"
@@ -40,9 +46,10 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background500"
+        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
@@ -83,6 +90,32 @@
                     tools:text="Release Date: 10/10/2021" />
 
                 <TextView
+                    android:id="@+id/tv_trailers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="@string/page_detail_trailer"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_282828" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_videos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:paddingEnd="6dp"
+                    android:paddingStart="6dp"
+                    android:orientation="horizontal"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_video" />
+
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"
@@ -120,26 +153,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
                     android:scrollbars="none">
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chip_genre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="28dp"
+                        android:layout_marginStart="16dp"
+                        android:clipToPadding="false"
                         app:singleLine="true" />
 
                 </HorizontalScrollView>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="@string/page_detail_cast"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_282828"
+                    tools:text="Casts" />
+
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_casts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
+                    android:paddingEnd="6dp"
+                    android:paddingStart="6dp"
                     android:orientation="horizontal"
+                    android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="5"
-                    tools:listitem="@layout/item_video" />
+                    tools:listitem="@layout/item_cast" />
 
             </LinearLayout>
 

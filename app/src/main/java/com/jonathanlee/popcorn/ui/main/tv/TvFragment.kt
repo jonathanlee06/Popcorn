@@ -51,13 +51,21 @@ class TvFragment : BaseFragment(), TvContract.View {
         val tvAtPosition = tvShowList[position]
         val details = Details(
             id = tvAtPosition.genre_ids,
+            movieId = tvAtPosition.id,
             backdropPath = tvAtPosition.backdrop_path,
             title = tvAtPosition.name,
             releaseDate = tvAtPosition.first_air_date,
             summary = tvAtPosition.overview,
-            videos = tvAtPosition.videos
+            videos = tvAtPosition.videos,
+            isMovie = false
         )
-        navigateTo(DetailActivity.getStartIntent(requireContext(), details))
+        navigateTo(
+            DetailActivity.getStartIntent(
+                requireContext(),
+                details,
+                DetailActivity.ENTRY_FROM_TV
+            )
+        )
     }
 
     private fun initPresenter() {

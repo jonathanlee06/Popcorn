@@ -34,6 +34,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:text="Test Title"
+            android:maxLines="2"
             android:textAlignment="center"
             android:textSize="16sp"
             android:textColor="#FFFFFF"

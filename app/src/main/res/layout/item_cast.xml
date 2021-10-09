@@ -3,53 +3,37 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="10dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="8dp"
+        android:elevation="8dp">
 
         <RelativeLayout
-            android:id="@+id/rl_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/iv_video_thumbnail"
+                android:id="@+id/iv_cast_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                tools:src="@drawable/test" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="22dp"
-                android:layout_centerInParent="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/icon_youtube" />
+                android:src="@drawable/test" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical"
                 android:background="@drawable/bg_gradient_black">
 
-                <LinearLayout
-                    android:id="@+id/item_video_palette"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0.7"
-                    android:orientation="vertical" />
-
                 <TextView
-                    android:id="@+id/item_video_title"
+                    android:id="@+id/item_cast_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -57,7 +41,7 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="title" />
+                    tools:text="Ryan Reynolds" />
             </RelativeLayout>
 
         </RelativeLayout>
