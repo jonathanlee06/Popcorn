@@ -35,8 +35,6 @@ these steps:
 tmdb_api_key=YOUR_API_KEY
 ```
 
-<img src="/previews/demo.gif" align="right" width="32%"/>
-
 ## :books: Tech stack & Libraries
 
 - Minimum SDK level 23
