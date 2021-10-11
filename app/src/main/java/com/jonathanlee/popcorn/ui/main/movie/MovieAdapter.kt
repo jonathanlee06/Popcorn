@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.palette.graphics.Palette
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -14,73 +15,97 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Movie
+import com.jonathanlee.popcorn.data.model.MovieItem
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.databinding.ItemListBinding
+import com.jonathanlee.popcorn.databinding.ItemLoadingBinding
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() {
+class MovieAdapter(private val layoutManager: GridLayoutManager) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val movieList: MutableList<Movie?> = ArrayList()
+    private val movieList: MutableList<MovieItem> = ArrayList()
     private var context: Context? = null
-    private var onItemClickListener: AdapterItemClickListener? = null
+    private var onItemClickListener: AdapterItemClickListener<Movie>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviePosterViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemListBinding.inflate(
-            inflater, parent, false
-        )
-        context = parent.context
-        return MoviePosterViewHolder(binding)
+    companion object {
+        private const val TYPE_FOOTER = 0
+        private const val TYPE_ITEM = 1
     }
 
-    override fun onBindViewHolder(holder: MoviePosterViewHolder, position: Int) {
-        val binding = holder.binding
-        if (movieList.isNullOrEmpty()) {
-            return
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        context = parent.context
+        return when (viewType) {
+            TYPE_FOOTER -> {
+                val binding = ItemLoadingBinding.inflate(
+                    inflater, parent, false
+                )
+                FooterViewHolder(binding)
+            }
+            TYPE_ITEM -> {
+                val binding = ItemListBinding.inflate(
+                    inflater, parent, false
+                )
+                ItemViewHolder(binding)
+            }
+            else -> throw ClassCastException("Unknown viewType $viewType")
         }
-        val data = movieList[position] ?: return
-        binding.root.setOnClickListener {
-            onItemClickListener?.onItemClick(it, position)
-        }
-        binding.tvMovieTitle.text = data.title
-        context?.let { context ->
-            if (data.poster_path != null) {
-                val imagePath = Api.getPosterPath(data.poster_path)
-                Glide.with(context)
-                    .asBitmap()
-                    .load(imagePath)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .listener(object : RequestListener<Bitmap> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Bitmap>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            return false
-                        }
+    }
 
-                        override fun onResourceReady(
-                            resource: Bitmap?,
-                            model: Any?,
-                            target: Target<Bitmap>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            resource?.let {
-                                val palette = Palette.from(resource).generate().darkVibrantSwatch
-                                if (palette != null) {
-                                    binding.llTitle.setBackgroundColor(palette.rgb)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is ItemViewHolder -> {
+                val binding = holder.binding
+                if (movieList.isNullOrEmpty()) {
+                    return
+                }
+                val model = movieList[position] as MovieItem.Item
+                binding.root.setOnClickListener {
+                    onItemClickListener?.onItemClicked(position, model.movie)
+                }
+                binding.tvMovieTitle.text = model.movie.title
+                context?.let { context ->
+                    if (model.movie.poster_path != null) {
+                        val imagePath = Api.getPosterPath(model.movie.poster_path)
+                        Glide.with(context)
+                            .asBitmap()
+                            .load(imagePath)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.ic_launcher_background)
+                            .listener(object : RequestListener<Bitmap> {
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Bitmap>?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    return false
                                 }
-                            }
-                            return false
-                        }
 
-                    })
-                    .into(binding.ivPoster)
-            } else {
-                Glide.with(context).clear(binding.ivPoster)
+                                override fun onResourceReady(
+                                    resource: Bitmap?,
+                                    model: Any?,
+                                    target: Target<Bitmap>?,
+                                    dataSource: DataSource?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    resource?.let {
+                                        val palette =
+                                            Palette.from(resource).generate().vibrantSwatch
+                                        if (palette != null) {
+                                            binding.llTitle.setBackgroundColor(palette.rgb)
+                                        }
+                                    }
+                                    return false
+                                }
+
+                            })
+                            .into(binding.ivPoster)
+                    } else {
+                        Glide.with(context).clear(binding.ivPoster)
+                    }
+                }
             }
         }
     }
@@ -89,19 +114,28 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() 
         return movieList.size
     }
 
-    fun setOnItemClickListener(listener: AdapterItemClickListener) {
+    override fun getItemViewType(position: Int): Int {
+        return when (movieList[position]) {
+            is MovieItem.Footer -> TYPE_FOOTER
+            is MovieItem.Item -> TYPE_ITEM
+        }
+    }
+
+    fun setOnItemClickListener(listener: AdapterItemClickListener<Movie>) {
         onItemClickListener = listener
     }
 
-    fun getItem(position: Int): Movie? {
+    fun getItem(position: Int): MovieItem {
         return movieList[position]
     }
 
-    fun updateListData(page: Int = 1, list: ArrayList<Movie>) {
+    fun updateListData(page: Int = 1, list: List<MovieItem.Item>?) {
         if (page == 1) {
             this.movieList.clear()
         }
-        movieList.addAll(list)
+        if (!list.isNullOrEmpty()) {
+            movieList.addAll(list)
+        }
         notifyDataSetChanged()
     }
 
@@ -109,8 +143,18 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() 
         if (movieList.isNullOrEmpty()) {
             return
         }
-        movieList.add(null)
+        movieList.add(MovieItem.Footer)
         notifyItemInserted(itemCount - 1)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == (itemCount - 1)) {
+                    2
+                } else {
+                    1
+                }
+            }
+
+        }
     }
 
     fun removeLoadMore() {
@@ -119,8 +163,21 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MoviePosterViewHolder>() 
         }
         movieList.removeAt(itemCount - 1)
         notifyItemRemoved(itemCount)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == (itemCount)) {
+                    2
+                } else {
+                    1
+                }
+            }
+        }
     }
 
-    inner class MoviePosterViewHolder(val binding: ItemListBinding) :
+    inner class ItemViewHolder(val binding: ItemListBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    inner class FooterViewHolder(val binding: ItemLoadingBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
 }

@@ -14,7 +14,7 @@ class DetailVideoAdapter : RecyclerView.Adapter<DetailVideoAdapter.VideoViewHold
 
     private val videoList = ArrayList<Video>()
     private var context: Context? = null
-    private var onItemClickListener: AdapterItemClickListener? = null
+    private var onItemClickListener: AdapterItemClickListener<Video>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,7 +30,7 @@ class DetailVideoAdapter : RecyclerView.Adapter<DetailVideoAdapter.VideoViewHold
         val data = videoList[position]
 
         binding.rlVideo.setOnClickListener {
-            onItemClickListener?.onItemClick(it, position)
+            onItemClickListener?.onItemClicked(position, data)
         }
         binding.itemVideoTitle.text = data.name
         context?.let {
@@ -45,7 +45,7 @@ class DetailVideoAdapter : RecyclerView.Adapter<DetailVideoAdapter.VideoViewHold
         return if (videoList.size > 5) 5 else videoList.size
     }
 
-    fun setOnItemClickListener(listener: AdapterItemClickListener) {
+    fun setOnItemClickListener(listener: AdapterItemClickListener<Video>) {
         onItemClickListener = listener
     }
 

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Details
 import com.jonathanlee.popcorn.data.model.Movie
+import com.jonathanlee.popcorn.data.model.MovieItem
 import com.jonathanlee.popcorn.data.repository.Repository
 import com.jonathanlee.popcorn.databinding.FragmentMovieBinding
 import com.jonathanlee.popcorn.ui.base.BaseFragment
@@ -21,7 +22,6 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     override val binding: FragmentMovieBinding by viewBinding()
     override lateinit var presenter: MovieContract.Presenter
     private lateinit var movieListAdapter: MovieAdapter
-    private val movieList: ArrayList<Movie> = ArrayList()
     private var page: Int = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,15 +30,15 @@ class MovieFragment : BaseFragment(), MovieContract.View {
         initPresenter()
     }
 
-    override fun onGetMovieListSuccess(page: Int, movies: ArrayList<Movie>) {
+    override fun onGetMovieListSuccess(page: Int, movies: List<MovieItem.Item>?) {
         binding.apply {
             srlMovie.visibility = View.VISIBLE
             rlError.visibility = View.GONE
         }
         movieListAdapter.updateListData(page, movies)
-        movieListAdapter.setOnItemClickListener(object : AdapterItemClickListener {
-            override fun onItemClick(view: View, position: Int) {
-                goToDetail(position)
+        movieListAdapter.setOnItemClickListener(object : AdapterItemClickListener<Movie> {
+            override fun onItemClicked(position: Int, model: Movie) {
+                goToDetail(model)
             }
         })
         if (binding.srlMovie.isRefreshing) {
@@ -55,23 +55,25 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     }
 
     override fun addLoadMore() {
-        movieListAdapter.addLoadMore()
+        movieListAdapter.apply {
+            addLoadMore()
+            binding.rvMovie.smoothScrollToPosition(this.itemCount - 1)
+        }
     }
 
     override fun removeLoadMore() {
         movieListAdapter.removeLoadMore()
     }
 
-    private fun goToDetail(position: Int) {
-        val movieAtPosition = movieListAdapter.getItem(position) ?: return
+    private fun goToDetail(model: Movie) {
         val details = Details(
-            id = movieAtPosition.genre_ids,
-            movieId = movieAtPosition.id,
-            backdropPath = movieAtPosition.backdrop_path,
-            title = movieAtPosition.title,
-            releaseDate = movieAtPosition.release_date,
-            summary = movieAtPosition.overview,
-            videos = movieAtPosition.videos,
+            id = model.genre_ids,
+            movieId = model.id,
+            backdropPath = model.backdrop_path,
+            title = model.title,
+            releaseDate = model.release_date,
+            summary = model.overview,
+            videos = model.videos,
             isMovie = true
         )
         navigateTo(
@@ -93,13 +95,13 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     }
 
     private fun initView() {
-        movieListAdapter = MovieAdapter()
         val listLayoutManager = GridLayoutManager(requireContext(), 2)
+        movieListAdapter = MovieAdapter(listLayoutManager)
         binding.rvMovie.apply {
             layoutManager = listLayoutManager
             adapter = movieListAdapter
-            setOnScrollChangeListener { v, _, _, _, _ ->
-                if (!v.canScrollVertically(1)) {
+            setOnScrollChangeListener { _, _, _, _, _ ->
+                if (listLayoutManager.findLastCompletelyVisibleItemPosition() == (movieListAdapter.itemCount - 1)) {
                     presenter.loadMore()
                 }
             }

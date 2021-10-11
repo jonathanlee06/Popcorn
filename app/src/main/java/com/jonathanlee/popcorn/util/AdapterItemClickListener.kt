@@ -1,7 +1,5 @@
 package com.jonathanlee.popcorn.util
 
-import android.view.View
-
-interface AdapterItemClickListener {
-    fun onItemClick(view: View, position: Int)
+interface AdapterItemClickListener<T> {
+    fun onItemClicked(position: Int, model: T)
 }

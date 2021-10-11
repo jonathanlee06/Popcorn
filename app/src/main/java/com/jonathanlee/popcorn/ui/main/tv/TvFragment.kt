@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Details
 import com.jonathanlee.popcorn.data.model.Tv
+import com.jonathanlee.popcorn.data.model.TvItem
 import com.jonathanlee.popcorn.data.repository.Repository
 import com.jonathanlee.popcorn.databinding.FragmentTvBinding
 import com.jonathanlee.popcorn.ui.base.BaseFragment
@@ -28,13 +29,26 @@ class TvFragment : BaseFragment(), TvContract.View {
         initPresenter()
     }
 
-    override fun onGetTvShowListSuccess(tvShows: ArrayList<Tv>) {
-        tvShowList.clear()
-        tvShowList.addAll(tvShows)
-        tvShowListAdapter.updateListData(tvShowList)
-        tvShowListAdapter.setOnItemClickListener(object : AdapterItemClickListener {
-            override fun onItemClick(view: View, position: Int) {
-                goToDetail(position)
+    override fun addLoadMore() {
+        tvShowListAdapter.apply {
+            addLoadMore()
+            binding.rvTv.smoothScrollToPosition(this.itemCount - 1)
+        }
+    }
+
+    override fun removeLoadMore() {
+        tvShowListAdapter.removeLoadMore()
+    }
+
+    override fun onGetTvShowListSuccess(page: Int, tvShows: List<TvItem.Item>?) {
+        binding.apply {
+            srlTv.visibility = View.VISIBLE
+            rlError.visibility = View.GONE
+        }
+        tvShowListAdapter.updateListData(page, tvShows)
+        tvShowListAdapter.setOnItemClickListener(object : AdapterItemClickListener<Tv> {
+            override fun onItemClicked(position: Int, model: Tv) {
+                goToDetail(model)
             }
         })
         if (binding.srlTv.isRefreshing) {
@@ -44,19 +58,21 @@ class TvFragment : BaseFragment(), TvContract.View {
     }
 
     override fun onGetTvShowListFailure() {
-        //TODO("Not yet implemented")
+        binding.apply {
+            srlTv.visibility = View.GONE
+            rlError.visibility = View.VISIBLE
+        }
     }
 
-    private fun goToDetail(position: Int) {
-        val tvAtPosition = tvShowList[position]
+    private fun goToDetail(model: Tv) {
         val details = Details(
-            id = tvAtPosition.genre_ids,
-            movieId = tvAtPosition.id,
-            backdropPath = tvAtPosition.backdrop_path,
-            title = tvAtPosition.name,
-            releaseDate = tvAtPosition.first_air_date,
-            summary = tvAtPosition.overview,
-            videos = tvAtPosition.videos,
+            id = model.genre_ids,
+            movieId = model.id,
+            backdropPath = model.backdrop_path,
+            title = model.name,
+            releaseDate = model.first_air_date,
+            summary = model.overview,
+            videos = model.videos,
             isMovie = false
         )
         navigateTo(
@@ -74,18 +90,25 @@ class TvFragment : BaseFragment(), TvContract.View {
             this,
             lifecycleScope
         )
-        presenter.getTvShowList()
+        presenter.getTvShowList(1)
     }
 
     private fun initView() {
-        tvShowListAdapter = TvAdapter()
+        val gridLayout = GridLayoutManager(requireContext(), 2)
+        tvShowListAdapter = TvAdapter(gridLayout)
         binding.rvTv.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = gridLayout
             adapter = tvShowListAdapter
+            setOnScrollChangeListener { v, _, _, _, _ ->
+                if (gridLayout.findLastCompletelyVisibleItemPosition() == (tvShowListAdapter.itemCount - 1)) {
+                    presenter.loadMore()
+                    v.scrollTo(0, tvShowListAdapter.itemCount + 1)
+                }
+            }
         }
         binding.srlTv.setOnRefreshListener {
             binding.rvTv.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER
-            presenter.getTvShowList()
+            presenter.getTvShowList(1)
         }
     }
 }

@@ -104,10 +104,10 @@ class DetailActivity : BaseActivity(), DetailContract.View {
             addAll(video)
         }
         videoAdapter.updateListData(videoList)
-        videoAdapter.setOnItemClickListener(object : AdapterItemClickListener {
-            override fun onItemClick(view: View, position: Int) {
+        videoAdapter.setOnItemClickListener(object : AdapterItemClickListener<Video> {
+            override fun onItemClicked(position: Int, model: Video) {
                 val goToYouTube =
-                    Intent(Intent.ACTION_VIEW, Uri.parse(videoList[position].videoPath))
+                    Intent(Intent.ACTION_VIEW, Uri.parse(model.videoPath))
                 navigateTo(goToYouTube)
             }
         })
@@ -136,7 +136,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         videoAdapter = DetailVideoAdapter()
         binding.apply {
             window.statusBarColor = Color.TRANSPARENT
-            tvDetailDate.text = getString(R.string.page_detail_release_date, details?.releaseDate)
+            tvDetailDate.text = getString(R.string.page_detail_release_date, details.releaseDate)
             tvDetailSummary.text = details.summary
             tvDetailTitle.text = details.title
             mtbTitle.title = details.title

@@ -2,6 +2,7 @@ package com.jonathanlee.popcorn.ui.main.movie
 
 import android.util.Log
 import com.jonathanlee.popcorn.data.model.Movie
+import com.jonathanlee.popcorn.data.model.MovieItem
 import com.jonathanlee.popcorn.data.model.network.MovieListResponse
 import com.jonathanlee.popcorn.data.repository.DiscoverRepository
 import kotlinx.coroutines.CoroutineScope
@@ -69,7 +70,7 @@ class MoviePresenter(
         Log.d("onQueryListSuccess", "currentCount=$currentResult")
         withContext(Dispatchers.Main) {
             view.removeLoadMore()
-            view.onGetMovieListSuccess(page, movieData)
+            view.onGetMovieListSuccess(page, toMovieItemList(movieData))
         }
     }
 
@@ -80,6 +81,19 @@ class MoviePresenter(
             view.removeLoadMore()
             view.onGetMovieListFailure()
         }
+    }
+
+    private fun toMovieItemList(movieList: ArrayList<Movie>): List<MovieItem.Item>? {
+        val list: MutableList<MovieItem.Item>?
+        if (movieList.isNullOrEmpty()) {
+            list = null
+        } else {
+            list = ArrayList()
+            movieList.forEach { movie ->
+                list.add(MovieItem.Item(movie))
+            }
+        }
+        return list
     }
 
 }
