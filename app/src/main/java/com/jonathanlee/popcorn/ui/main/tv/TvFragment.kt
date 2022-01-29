@@ -69,6 +69,7 @@ class TvFragment : BaseFragment(), TvContract.View {
             id = model.genre_ids,
             movieId = model.id,
             backdropPath = model.backdrop_path,
+            posterPath = model.poster_path,
             title = model.name,
             releaseDate = model.first_air_date,
             summary = model.overview,

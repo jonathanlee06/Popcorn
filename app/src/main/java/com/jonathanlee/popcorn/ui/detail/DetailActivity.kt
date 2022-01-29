@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.view.View.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,7 +40,6 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         const val ENTRY_FROM_TV = 1
         private const val EXTRA_DETAILS = "details"
         private const val EXTRA_ENTRY_POINT = "entryPoint"
-        private const val PATH_YOUTUBE_APP = "com.google.android.youtube"
 
         fun getStartIntent(context: Context, details: Details, entry: Int): Intent {
             val intent = Intent(context, DetailActivity::class.java)
@@ -70,6 +68,17 @@ class DetailActivity : BaseActivity(), DetailContract.View {
                 .into(binding.ivBackdrop)
         } else {
             Glide.with(this).clear(binding.ivBackdrop)
+        }
+    }
+
+    override fun setBackdropPoster(path: String?) {
+        if (path != null) {
+            Glide.with(this)
+                .load(path)
+                .placeholder(ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)))
+                .into(binding.ivPoster)
+        } else {
+            Glide.with(this).clear(binding.ivPoster)
         }
     }
 

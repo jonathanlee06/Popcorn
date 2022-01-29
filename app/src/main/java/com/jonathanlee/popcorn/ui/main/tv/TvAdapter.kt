@@ -3,6 +3,7 @@ package com.jonathanlee.popcorn.ui.main.tv
 import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,7 +13,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Tv
 import com.jonathanlee.popcorn.data.model.TvItem
 import com.jonathanlee.popcorn.data.source.Api
@@ -62,13 +62,13 @@ class TvAdapter(private val layoutManager: GridLayoutManager) :
                     onItemClickListener?.onItemClicked(position, model.tvShow)
                 }
                 binding.tvMovieTitle.text = model.tvShow.name
+                binding.tvPlaceholderTitle.text = model.tvShow.name
                 context?.let {
                     if (model.tvShow.poster_path != null) {
                         val imagePath = Api.getPosterPath(model.tvShow.poster_path)
                         Glide.with(it)
                             .asBitmap()
                             .load(imagePath)
-                            .placeholder(R.drawable.ic_launcher_background)
                             .listener(object : RequestListener<Bitmap> {
                                 override fun onLoadFailed(
                                     e: GlideException?,
@@ -76,6 +76,7 @@ class TvAdapter(private val layoutManager: GridLayoutManager) :
                                     target: Target<Bitmap>?,
                                     isFirstResource: Boolean
                                 ): Boolean {
+                                    binding.tvPlaceholderTitle.visibility = View.VISIBLE
                                     return false
                                 }
 

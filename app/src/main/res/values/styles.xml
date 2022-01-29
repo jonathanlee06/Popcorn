@@ -9,6 +9,14 @@
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
+    <style name="AppThemeDark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/background900</item>
+        <item name="colorPrimaryDark">@color/background900</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
     <style name="BottomSheet" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>

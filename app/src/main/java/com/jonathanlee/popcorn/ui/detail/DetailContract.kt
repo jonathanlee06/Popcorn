@@ -9,6 +9,8 @@ interface DetailContract {
     interface View : BaseContract.View<Presenter> {
         fun setBackdropImage(path: String?)
 
+        fun setBackdropPoster(path: String?)
+
         fun setGenres(genres: ArrayList<String>)
 
         fun setCasts(cast: ArrayList<Cast>)
@@ -22,6 +24,8 @@ interface DetailContract {
         fun getDetails(details: Details, entry: Int)
 
         fun getBackdropImage(path: String?)
+
+        fun getBackdropPoster(path: String?)
 
         fun getGenres(id: List<Int>)
 

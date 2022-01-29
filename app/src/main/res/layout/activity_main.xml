@@ -26,10 +26,10 @@
                 android:id="@+id/tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                app:tabIndicatorColor="@color/white"
+                android:background="@color/background900"
+                app:tabIndicatorColor="@color/colorPrimary"
                 app:tabTextColor="@color/white"
-                app:tabBackground="@color/colorPrimary"
+                app:tabBackground="@color/background900"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/main_toolbar" />

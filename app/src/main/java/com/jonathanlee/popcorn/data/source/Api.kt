@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Api {
-    const val BASE_URL = "https://api.themoviedb.org/"
+    private const val BASE_URL = "https://api.themoviedb.org/"
     private const val BASE_POSTER_PATH = "https://image.tmdb.org/t/p/w500"
     private const val BASE_BACKDROP_PATH = "https://image.tmdb.org/t/p/w780"
     private const val BASE_CAST_PATH = "https://image.tmdb.org/t/p/w342"

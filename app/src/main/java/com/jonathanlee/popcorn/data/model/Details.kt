@@ -8,6 +8,7 @@ data class Details(
     val id: List<Int>,
     val movieId: Int = 0,
     val backdropPath: String?,
+    val posterPath: String?,
     val title: String,
     val tagline: String? = null,
     val releaseDate: String?,

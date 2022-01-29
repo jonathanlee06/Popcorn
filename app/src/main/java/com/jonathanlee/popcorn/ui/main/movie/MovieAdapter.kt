@@ -3,6 +3,7 @@ package com.jonathanlee.popcorn.ui.main.movie
 import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,7 +14,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Movie
 import com.jonathanlee.popcorn.data.model.MovieItem
 import com.jonathanlee.popcorn.data.source.Api
@@ -65,6 +65,7 @@ class MovieAdapter(private val layoutManager: GridLayoutManager) :
                     onItemClickListener?.onItemClicked(position, model.movie)
                 }
                 binding.tvMovieTitle.text = model.movie.title
+                binding.tvPlaceholderTitle.text = model.movie.title
                 context?.let { context ->
                     if (model.movie.poster_path != null) {
                         val imagePath = Api.getPosterPath(model.movie.poster_path)
@@ -72,7 +73,6 @@ class MovieAdapter(private val layoutManager: GridLayoutManager) :
                             .asBitmap()
                             .load(imagePath)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .placeholder(R.drawable.ic_launcher_background)
                             .listener(object : RequestListener<Bitmap> {
                                 override fun onLoadFailed(
                                     e: GlideException?,
@@ -80,6 +80,7 @@ class MovieAdapter(private val layoutManager: GridLayoutManager) :
                                     target: Target<Bitmap>?,
                                     isFirstResource: Boolean
                                 ): Boolean {
+                                    binding.tvPlaceholderTitle.visibility = View.VISIBLE
                                     return false
                                 }
 

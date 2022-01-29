@@ -70,6 +70,7 @@ class MovieFragment : BaseFragment(), MovieContract.View {
             id = model.genre_ids,
             movieId = model.id,
             backdropPath = model.backdrop_path,
+            posterPath = model.poster_path,
             title = model.title,
             releaseDate = model.release_date,
             summary = model.overview,

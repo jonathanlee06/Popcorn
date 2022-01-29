@@ -32,6 +32,7 @@ class DetailPresenter(
     override fun getDetails(details: Details, entry: Int) {
         scope.launch(Dispatchers.IO) {
             async { getBackdropImage(details.backdropPath) }
+            async { getBackdropPoster(details.posterPath) }
             async { getCasts(details.movieId, entry) }
             async { getGenres(details.id) }
             async { getVideos(details.movieId, entry) }
@@ -42,6 +43,13 @@ class DetailPresenter(
         scope.launch(Dispatchers.Main) {
             val fullPath = Api.getBackdropPath(path)
             view.setBackdropImage(fullPath)
+        }
+    }
+
+    override fun getBackdropPoster(path: String?) {
+        scope.launch(Dispatchers.Main) {
+            val fullPath = Api.getPosterPath(path)
+            view.setBackdropPoster(fullPath)
         }
     }
 
