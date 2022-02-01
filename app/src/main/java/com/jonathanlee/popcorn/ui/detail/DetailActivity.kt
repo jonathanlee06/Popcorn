@@ -11,9 +11,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import coil.load
+import coil.transform.BlurTransformation
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
 import com.jonathanlee.popcorn.R
@@ -25,7 +24,6 @@ import com.jonathanlee.popcorn.ui.base.BaseActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.navigateTo
-import jp.wasabeef.glide.transformations.BlurTransformation
 
 class DetailActivity : BaseActivity(), DetailContract.View {
 
@@ -64,27 +62,29 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
 
     override fun setBackdropImage(path: String?) {
-        if (path != null) {
-            Glide.with(this)
-                .load(path)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 3)))
-                .placeholder(ColorDrawable(ContextCompat.getColor(this, R.color.black)))
-                .into(binding.ivBackdrop)
-        } else {
-            Glide.with(this).clear(binding.ivBackdrop)
+        val placeholder = ColorDrawable(ContextCompat.getColor(this, R.color.black))
+        if (!path.isNullOrEmpty()) {
+            binding.ivBackdrop.load(path) {
+                crossfade(true)
+                placeholder(placeholder)
+                transformations(
+                    BlurTransformation(
+                        context = this@DetailActivity,
+                        radius = 10F,
+                        sampling = 1F
+                    )
+                )
+            }
         }
     }
 
     override fun setBackdropPoster(path: String?) {
-        if (path != null) {
-            Glide.with(this)
-                .load(path)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(ColorDrawable(ContextCompat.getColor(this, R.color.background900)))
-                .into(binding.ivPoster)
-        } else {
-            Glide.with(this).clear(binding.ivPoster)
+        val placeholder = ColorDrawable(ContextCompat.getColor(this, R.color.black))
+        if (!path.isNullOrEmpty()) {
+            binding.ivPoster.load(path) {
+                crossfade(true)
+                placeholder(placeholder)
+            }
         }
     }
 

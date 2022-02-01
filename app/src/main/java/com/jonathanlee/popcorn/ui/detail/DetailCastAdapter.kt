@@ -4,8 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.jonathanlee.popcorn.R
+import coil.load
 import com.jonathanlee.popcorn.data.model.Cast
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.databinding.ItemCastBinding
@@ -28,12 +27,9 @@ class DetailCastAdapter : RecyclerView.Adapter<DetailCastAdapter.CastViewHolder>
         val binding = holder.binding
         val data = castList[position]
         binding.itemCastName.text = data.name
-        context?.let {
-            val imagePath = Api.getCastPath(data.profilePath)
-            Glide.with(it)
-                .load(imagePath)
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(binding.ivCastPhoto)
+        val imagePath = Api.getCastPath(data.profilePath)
+        binding.ivCastPhoto.load(imagePath) {
+            crossfade(true)
         }
     }
 

@@ -41,7 +41,7 @@ class DetailPresenter(
 
     override fun getBackdropImage(path: String?) {
         scope.launch(Dispatchers.Main) {
-            val fullPath = Api.getBackdropPath(path)
+            val fullPath = Api.getBackdropSmallPath(path)
             view.setBackdropImage(fullPath)
         }
     }

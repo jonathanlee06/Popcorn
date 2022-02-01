@@ -1,19 +1,11 @@
 package com.jonathanlee.popcorn.ui.main.tv
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import coil.load
 import com.jonathanlee.popcorn.data.model.Tv
 import com.jonathanlee.popcorn.data.model.TvItem
 import com.jonathanlee.popcorn.data.source.Api
@@ -64,45 +56,10 @@ class TvAdapter(private val layoutManager: GridLayoutManager) :
                 }
                 binding.tvMovieTitle.text = model.tvShow.name
                 binding.tvPlaceholderTitle.text = model.tvShow.name
-                context?.let {
-                    if (model.tvShow.poster_path != null) {
-                        val imagePath = Api.getPosterPath(model.tvShow.poster_path)
-                        Glide.with(it)
-                            .asBitmap()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .load(imagePath)
-                            .listener(object : RequestListener<Bitmap> {
-                                override fun onLoadFailed(
-                                    e: GlideException?,
-                                    model: Any?,
-                                    target: Target<Bitmap>?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    binding.tvPlaceholderTitle.visibility = View.VISIBLE
-                                    return false
-                                }
-
-                                override fun onResourceReady(
-                                    resource: Bitmap?,
-                                    model: Any?,
-                                    target: Target<Bitmap>?,
-                                    dataSource: DataSource?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    resource?.let {
-                                        val palette =
-                                            Palette.from(resource).generate().vibrantSwatch
-                                        if (palette != null) {
-                                            binding.llTitle.setBackgroundColor(palette.rgb)
-                                        }
-                                    }
-                                    return false
-                                }
-
-                            })
-                            .into(binding.ivPoster)
-                    } else {
-                        Glide.with(it).clear(binding.ivPoster)
+                if (model.tvShow.poster_path != null) {
+                    val imagePath = Api.getPosterPath(model.tvShow.poster_path)
+                    binding.ivPoster.load(imagePath) {
+                        crossfade(true)
                     }
                 }
             }

@@ -27,9 +27,8 @@ buildscript {
         okhttpVersion = '4.9.0'
         gsonVersion = '2.8.7'
 
-        // Glide
-        glideVersion = '4.12.0'
-        glideTransformationVersion = '4.3.0'
+        // Coil - Image Loader
+        coilVersion = '1.4.0'
 
         // Unit Tes
         junitVersion = '4.13.2'

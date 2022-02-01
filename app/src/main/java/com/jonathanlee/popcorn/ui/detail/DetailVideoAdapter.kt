@@ -4,8 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.jonathanlee.popcorn.R
+import coil.load
 import com.jonathanlee.popcorn.data.model.Video
 import com.jonathanlee.popcorn.databinding.ItemVideoBinding
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
@@ -33,11 +32,8 @@ class DetailVideoAdapter : RecyclerView.Adapter<DetailVideoAdapter.VideoViewHold
             onItemClickListener?.onItemClicked(position, data)
         }
         binding.itemVideoTitle.text = data.name
-        context?.let {
-            Glide.with(it)
-                .load(data.thumbnailPath)
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(binding.ivVideoThumbnail)
+        binding.ivVideoThumbnail.load(data.thumbnailPath) {
+            crossfade(true)
         }
     }
 
