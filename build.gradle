@@ -29,6 +29,7 @@ buildscript {
 
         // Glide
         glideVersion = '4.12.0'
+        glideTransformationVersion = '4.3.0'
 
         // Unit Tes
         junitVersion = '4.13.2'

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -68,6 +69,7 @@ class TvAdapter(private val layoutManager: GridLayoutManager) :
                         val imagePath = Api.getPosterPath(model.tvShow.poster_path)
                         Glide.with(it)
                             .asBitmap()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .load(imagePath)
                             .listener(object : RequestListener<Bitmap> {
                                 override fun onLoadFailed(

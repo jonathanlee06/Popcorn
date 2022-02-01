@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
 import com.jonathanlee.popcorn.R
@@ -23,6 +25,7 @@ import com.jonathanlee.popcorn.ui.base.BaseActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.navigateTo
+import jp.wasabeef.glide.transformations.BlurTransformation
 
 class DetailActivity : BaseActivity(), DetailContract.View {
 
@@ -64,7 +67,9 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         if (path != null) {
             Glide.with(this)
                 .load(path)
-                .placeholder(ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimaryDark)))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 3)))
+                .placeholder(ColorDrawable(ContextCompat.getColor(this, R.color.black)))
                 .into(binding.ivBackdrop)
         } else {
             Glide.with(this).clear(binding.ivBackdrop)
@@ -75,7 +80,8 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         if (path != null) {
             Glide.with(this)
                 .load(path)
-                .placeholder(ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(ColorDrawable(ContextCompat.getColor(this, R.color.background900)))
                 .into(binding.ivPoster)
         } else {
             Glide.with(this).clear(binding.ivPoster)
