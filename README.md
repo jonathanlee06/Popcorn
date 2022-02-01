@@ -18,9 +18,9 @@ material designs & animations
 
 ## :page_with_curl: Note
 
-The purpose of this project is to keep myself up-to-date with the latest tech stacks & best
-practices used in Android development. Currently this project is still in development phase, and
-more features will be added in the future.
+The purpose of this project is to keep myself up-to-date with the latest tech stacks & learn the
+best practices used in Android development. Currently this project is still in development phase,
+and more features will be added in the future.
 
 ## :hammer: Building the project
 
@@ -29,7 +29,7 @@ these steps:
 
 1. Clone this project to your desired location
 2. Open the project folder using Android Studio
-3. Add your [The Movie DB](https://www.themoviedb.org/)'s API key in local.properties file.
+3. Add your [The Movie DB](https://www.themoviedb.org/)'s API key in `local.properties` file.
 
 ```xml
 tmdb_api_key=YOUR_API_KEY
@@ -41,13 +41,14 @@ tmdb_api_key=YOUR_API_KEY
 - 100% [Kotlin](https://kotlinlang.org/) based
   + [Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 - Architecture
-  - MVP Architecture (View - Presenter - Model)
+  - MVP Architecture (Model - View - Presenter)
   - Repository pattern
   - ViewBinding
 - Material Design & Animations
-- [Retrofit2 & Gson](https://github.com/square/retrofit) for building the REST API calls
+- [Retrofit2](https://github.com/square/retrofit) & [Gson](https://github.com/google/gson) for
+  building the REST API calls
 - [OkHttp3](https://github.com/square/okhttp) for building request interceptor
-- [Glide](https://github.com/bumptech/glide) for image loading
+- [Coil](https://github.com/coil-kt/coil) for image loading
 - [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/) for online crash monitoring
 
 ## :heart: See anything you like?
@@ -65,9 +66,9 @@ This project is licensed under the Apache License, Version 2.0 . See
 the [LICENSE](https://github.com/jonathanlee06/Popcorn/blob/master/LICENSE) file for more info.
 
 ```xml
-Designed and developed by 2021 Jonathan Lee
+Designed and developed by 2022 Jonathan Lee
 
-Licensed under the Apache License, Version 2.0 (the "License");
+        Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
