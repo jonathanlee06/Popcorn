@@ -55,9 +55,7 @@ class TvPresenter(
                 }
             } catch (e: Exception) {
                 Log.e("getTvShowList", "getTvShowList: no internet, error=${e.message}")
-                withContext(Dispatchers.Main) {
-                    view.onGetTvShowListFailure()
-                }
+                onQueryListFailure()
             }
         }
     }
@@ -73,11 +71,17 @@ class TvPresenter(
     }
 
     private suspend fun onQueryListFailure() {
-        pageIsLoading = false
-        hasNextPage = false
         withContext(Dispatchers.Main) {
-            view.removeLoadMore()
-            view.onGetTvShowListFailure()
+            if (currentResult != 0) {
+                pageIsLoading = false
+                hasNextPage = false
+                view.apply {
+                    removeLoadMore()
+                    onLoadMoreFailed()
+                }
+            } else {
+                view.onGetTvShowListFailure()
+            }
         }
     }
 

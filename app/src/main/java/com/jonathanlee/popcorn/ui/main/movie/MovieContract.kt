@@ -7,7 +7,9 @@ interface MovieContract {
     interface View : BaseContract.View<Presenter> {
         fun onGetMovieListSuccess(page: Int, movies: List<MovieItem.Item>?)
 
-        fun onGetMovieListFailure()
+        fun onGetMovieListFailure(errorMsg: String?)
+
+        fun onLoadMoreFailed()
 
         fun addLoadMore()
 

@@ -15,13 +15,13 @@ import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.navigateTo
+import com.jonathanlee.popcorn.util.isNetworkConnected
 
 class TvFragment : BaseFragment(), TvContract.View {
     override val layoutResId: Int = R.layout.fragment_tv
     override val binding: FragmentTvBinding by viewBinding()
     override lateinit var presenter: TvContract.Presenter
     private lateinit var tvShowListAdapter: TvAdapter
-    private val tvShowList: ArrayList<Tv> = ArrayList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,7 +42,7 @@ class TvFragment : BaseFragment(), TvContract.View {
 
     override fun onGetTvShowListSuccess(page: Int, tvShows: List<TvItem.Item>?) {
         binding.apply {
-            srlTv.visibility = View.VISIBLE
+            rvTv.visibility = View.VISIBLE
             rlError.visibility = View.GONE
         }
         tvShowListAdapter.updateListData(page, tvShows)
@@ -51,16 +51,31 @@ class TvFragment : BaseFragment(), TvContract.View {
                 goToDetail(model)
             }
         })
-        if (binding.srlTv.isRefreshing) {
-            binding.srlTv.isRefreshing = false
-            binding.rvTv.getChildAt(0).overScrollMode = View.OVER_SCROLL_ALWAYS
-        }
+        refreshController(
+            srl = binding.srlTv,
+            isListOccupied = tvShowListAdapter.itemCount != 0,
+            list = binding.rvTv
+        )
     }
 
     override fun onGetTvShowListFailure() {
         binding.apply {
-            srlTv.visibility = View.GONE
+            rvTv.visibility = View.GONE
             rlError.visibility = View.VISIBLE
+        }
+        refreshController(
+            srl = binding.srlTv,
+            isListOccupied = tvShowListAdapter.itemCount != 0,
+            list = binding.rvTv
+        )
+        if (!isNetworkConnected(requireContext())) {
+            showNetworkErrorDialog(context = requireContext())
+        }
+    }
+
+    override fun onLoadMoreFailed() {
+        if (!isNetworkConnected(requireContext())) {
+            showNetworkErrorDialog(context = requireContext())
         }
     }
 
@@ -108,7 +123,11 @@ class TvFragment : BaseFragment(), TvContract.View {
             }
         }
         binding.srlTv.setOnRefreshListener {
-            binding.rvTv.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER
+            overScrollController(
+                isListOccupied = tvShowListAdapter.itemCount != 0,
+                isFinishRefresh = false,
+                list = binding.rvTv
+            )
             presenter.getTvShowList(1)
         }
     }

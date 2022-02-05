@@ -11,10 +11,12 @@ import com.jonathanlee.popcorn.data.model.MovieItem
 import com.jonathanlee.popcorn.data.repository.Repository
 import com.jonathanlee.popcorn.databinding.FragmentMovieBinding
 import com.jonathanlee.popcorn.ui.base.BaseFragment
+import com.jonathanlee.popcorn.ui.common.DialogHelper
 import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.navigateTo
+import com.jonathanlee.popcorn.util.isNetworkConnected
 
 class MovieFragment : BaseFragment(), MovieContract.View {
 
@@ -32,7 +34,7 @@ class MovieFragment : BaseFragment(), MovieContract.View {
 
     override fun onGetMovieListSuccess(page: Int, movies: List<MovieItem.Item>?) {
         binding.apply {
-            srlMovie.visibility = View.VISIBLE
+            rvMovie.visibility = View.VISIBLE
             rlError.visibility = View.GONE
         }
         movieListAdapter.updateListData(page, movies)
@@ -41,16 +43,37 @@ class MovieFragment : BaseFragment(), MovieContract.View {
                 goToDetail(model)
             }
         })
-        if (binding.srlMovie.isRefreshing) {
-            binding.srlMovie.isRefreshing = false
-            binding.rvMovie.getChildAt(0).overScrollMode = View.OVER_SCROLL_ALWAYS
+        refreshController(
+            srl = binding.srlMovie,
+            isListOccupied = movieListAdapter.itemCount != 0,
+            list = binding.rvMovie
+        )
+    }
+
+    override fun onGetMovieListFailure(errorMsg: String?) {
+        binding.apply {
+            rvMovie.visibility = View.GONE
+            rlError.visibility = View.VISIBLE
+        }
+        refreshController(
+            srl = binding.srlMovie,
+            isListOccupied = movieListAdapter.itemCount != 0,
+            list = binding.rvMovie
+        )
+        if (!isNetworkConnected(requireContext())) {
+            showNetworkErrorDialog(context = requireContext())
+        } else {
+            DialogHelper.showGenericErrorDialog(
+                context = requireContext(),
+                msg = errorMsg,
+                positiveBtnCallback = { retry() }
+            )
         }
     }
 
-    override fun onGetMovieListFailure() {
-        binding.apply {
-            srlMovie.visibility = View.GONE
-            rlError.visibility = View.VISIBLE
+    override fun onLoadMoreFailed() {
+        if (!isNetworkConnected(requireContext())) {
+            showNetworkErrorDialog(context = requireContext())
         }
     }
 
@@ -108,9 +131,17 @@ class MovieFragment : BaseFragment(), MovieContract.View {
             }
         }
         binding.srlMovie.setOnRefreshListener {
-            binding.rvMovie.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER
+            overScrollController(
+                isListOccupied = movieListAdapter.itemCount != 0,
+                isFinishRefresh = false,
+                list = binding.rvMovie
+            )
             presenter.resetPagination()
             presenter.getMovieList(page)
         }
+    }
+
+    private fun retry() {
+        presenter.getMovieList(page)
     }
 }

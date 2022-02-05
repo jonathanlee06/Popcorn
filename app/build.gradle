@@ -110,6 +110,9 @@ dependencies {
     // Coil - image loader
     implementation "io.coil-kt:coil:$coilVersion"
 
+    // Material Dialog
+    implementation "com.afollestad.material-dialogs:core:$materialDialogVersion"
+
     // unit test
     testImplementation "junit:junit:$junitVersion"
     testImplementation "androidx.test:core:$unitTestCoreVersion"

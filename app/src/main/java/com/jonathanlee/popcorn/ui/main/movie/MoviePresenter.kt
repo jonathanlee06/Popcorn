@@ -44,6 +44,7 @@ class MoviePresenter(
 
     override fun getMovieList(page: Int) {
         scope.launch(Dispatchers.IO) {
+            discoverRepository.fetchMovie(page)
             try {
                 val request = discoverRepository.fetchMovie(page)
                 if (request.isSuccessful) {
@@ -56,9 +57,7 @@ class MoviePresenter(
                 }
             } catch (e: Exception) {
                 Log.e("getMovieList", "getMovieList: no internet, error=${e.message}")
-                withContext(Dispatchers.Main) {
-                    view.onGetMovieListFailure()
-                }
+                onQueryListFailed(e)
             }
         }
     }
@@ -74,12 +73,18 @@ class MoviePresenter(
         }
     }
 
-    private suspend fun onQueryListFailed() {
-        pageIsLoading = false
-        hasNextPage = false
+    private suspend fun onQueryListFailed(e: Exception? = null) {
         withContext(Dispatchers.Main) {
-            view.removeLoadMore()
-            view.onGetMovieListFailure()
+            if (currentResult != 0) {
+                pageIsLoading = false
+                hasNextPage = false
+                view.apply {
+                    removeLoadMore()
+                    onLoadMoreFailed()
+                }
+            } else {
+                view.onGetMovieListFailure(e?.message)
+            }
         }
     }
 

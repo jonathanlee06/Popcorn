@@ -9,6 +9,8 @@ interface TvContract {
 
         fun onGetTvShowListFailure()
 
+        fun onLoadMoreFailed()
+
         fun addLoadMore()
 
         fun removeLoadMore()
