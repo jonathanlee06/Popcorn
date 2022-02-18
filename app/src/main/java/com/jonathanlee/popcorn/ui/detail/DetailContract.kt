@@ -1,6 +1,6 @@
 package com.jonathanlee.popcorn.ui.detail
 
-import com.jonathanlee.popcorn.data.model.Cast
+import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.data.model.Details
 import com.jonathanlee.popcorn.data.model.Video
 import com.jonathanlee.popcorn.ui.base.BaseContract
@@ -13,7 +13,7 @@ interface DetailContract {
 
         fun setGenres(genres: ArrayList<String>)
 
-        fun setCasts(cast: ArrayList<Cast>)
+        fun setCasts(cast: List<CastItem.Item>?)
 
         fun setVideos(video: ArrayList<Video>)
 

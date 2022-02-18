@@ -2,6 +2,7 @@ package com.jonathanlee.popcorn.ui.main.movie
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jonathanlee.popcorn.R
@@ -130,14 +131,24 @@ class MovieFragment : BaseFragment(), MovieContract.View {
                 }
             }
         }
-        binding.srlMovie.setOnRefreshListener {
-            overScrollController(
-                isListOccupied = movieListAdapter.itemCount != 0,
-                isFinishRefresh = false,
-                list = binding.rvMovie
-            )
-            presenter.resetPagination()
-            presenter.getMovieList(page)
+        binding.srlMovie.apply {
+            setOnRefreshListener {
+                overScrollController(
+                    isListOccupied = movieListAdapter.itemCount != 0,
+                    isFinishRefresh = false,
+                    list = binding.rvMovie
+                )
+                presenter.getMovieList(page)
+            }
+            setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+        }
+        binding.llFilter.setOnClickListener {
+            binding.srlMovie.apply {
+                isRefreshing = true
+                postDelayed({
+                    isRefreshing = false
+                }, 3000L)
+            }
         }
     }
 

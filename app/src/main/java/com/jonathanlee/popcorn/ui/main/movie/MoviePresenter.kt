@@ -44,7 +44,6 @@ class MoviePresenter(
 
     override fun getMovieList(page: Int) {
         scope.launch(Dispatchers.IO) {
-            discoverRepository.fetchMovie(page)
             try {
                 val request = discoverRepository.fetchMovie(page)
                 if (request.isSuccessful) {
@@ -53,6 +52,7 @@ class MoviePresenter(
                     Log.d("getMovieList", "getMovieList: response=${movieData[0].overview}")
                     onQueryListSuccess(movieData)
                 } else {
+                    Log.e("getMovieList", "getMovieList: request unsuccessful")
                     onQueryListFailed()
                 }
             } catch (e: Exception) {
