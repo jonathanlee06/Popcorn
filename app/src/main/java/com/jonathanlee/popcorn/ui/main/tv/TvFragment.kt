@@ -2,6 +2,7 @@ package com.jonathanlee.popcorn.ui.main.tv
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jonathanlee.popcorn.R
@@ -122,13 +123,16 @@ class TvFragment : BaseFragment(), TvContract.View {
                 }
             }
         }
-        binding.srlTv.setOnRefreshListener {
-            overScrollController(
-                isListOccupied = tvShowListAdapter.itemCount != 0,
-                isFinishRefresh = false,
-                list = binding.rvTv
-            )
-            presenter.getTvShowList(1)
+        binding.srlTv.apply {
+            setOnRefreshListener {
+                overScrollController(
+                    isListOccupied = tvShowListAdapter.itemCount != 0,
+                    isFinishRefresh = false,
+                    list = binding.rvTv
+                )
+                presenter.getTvShowList(1)
+            }
+            setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
         }
     }
 }

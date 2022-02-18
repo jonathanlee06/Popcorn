@@ -16,7 +16,7 @@ import coil.transform.BlurTransformation
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
 import com.jonathanlee.popcorn.R
-import com.jonathanlee.popcorn.data.model.Cast
+import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.data.model.Details
 import com.jonathanlee.popcorn.data.model.Video
 import com.jonathanlee.popcorn.databinding.ActivityDetailBinding
@@ -30,7 +30,6 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     private val binding: ActivityDetailBinding by viewBinding()
     private lateinit var details: Details
     private var entry: Int = 0
-    private val castList = ArrayList<Cast>()
     private val videoList = ArrayList<Video>()
     override lateinit var presenter: DetailContract.Presenter
     private lateinit var castAdapter: DetailCastAdapter
@@ -70,8 +69,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
                 transformations(
                     BlurTransformation(
                         context = this@DetailActivity,
-                        radius = 10F,
-                        sampling = 1F
+                        radius = 1F
                     )
                 )
             }
@@ -88,12 +86,9 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         }
     }
 
-    override fun setCasts(cast: ArrayList<Cast>) {
-        castList.apply {
-            clear()
-            addAll(cast)
-        }
-        castAdapter.updateListData(castList)
+    override fun setCasts(cast: List<CastItem.Item>?) {
+        val limitedCastItem = cast?.take(5)
+        castAdapter.updateListData(limitedCastItem)
     }
 
     override fun setGenres(genres: ArrayList<String>) {

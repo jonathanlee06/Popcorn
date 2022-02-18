@@ -25,7 +25,7 @@
     <ImageView
         android:id="@+id/iv_poster"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="296dp"
         android:scaleType="fitXY"
         android:src="@drawable/test"
         app:layout_constraintBottom_toTopOf="@id/ll_title"

@@ -1,6 +1,9 @@
 package com.jonathanlee.popcorn.ui.main
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -37,5 +40,19 @@ class MainActivity : AppCompatActivity() {
                 1 -> tab.text = getString(R.string.menu_tv)
             }
         }.attach()
+        binding.titleBar.apply {
+            visibility = View.VISIBLE
+        }
+    }
+
+    private fun toolbarController() {
+        binding.titleBar
+            .animate()
+            .translationY(-(binding.titleBar.height).toFloat())
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    binding.titleBar.visibility = View.GONE
+                }
+            })
     }
 }

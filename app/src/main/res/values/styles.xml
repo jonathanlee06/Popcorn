@@ -16,7 +16,10 @@
         <item name="colorPrimaryDark">@color/background900</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/background900</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:navigationBarColor">@color/background900</item>
+        <item name="swipeRefreshLayoutProgressSpinnerBackgroundColor">@color/background900</item>
+        <item name="md_color_title">@color/background900</item>
         <item name="md_corner_radius">8dp</item>
         <item name="md_color_button_text">@color/colorPrimary</item>
     </style>

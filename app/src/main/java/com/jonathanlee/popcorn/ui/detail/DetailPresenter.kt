@@ -2,10 +2,7 @@ package com.jonathanlee.popcorn.ui.detail
 
 import android.util.Log
 import com.google.gson.Gson
-import com.jonathanlee.popcorn.data.model.Cast
-import com.jonathanlee.popcorn.data.model.Details
-import com.jonathanlee.popcorn.data.model.Genre
-import com.jonathanlee.popcorn.data.model.Video
+import com.jonathanlee.popcorn.data.model.*
 import com.jonathanlee.popcorn.data.model.network.CastListResponse
 import com.jonathanlee.popcorn.data.model.network.GenreListResponse
 import com.jonathanlee.popcorn.data.model.network.VideoListResponse
@@ -66,7 +63,7 @@ class DetailPresenter(
                     Log.d("getCasts", "response success=${result.cast[0].profilePath}")
                     val castResult = result.cast as ArrayList<Cast>
                     withContext(Dispatchers.Main) {
-                        view.setCasts(castResult)
+                        view.setCasts(toCastItemList(castResult))
                     }
                 } else {
                     Log.d("getCasts", "response error=${request.errorBody()}")
@@ -172,5 +169,18 @@ class DetailPresenter(
             }
         }
         return mappedGenre
+    }
+
+    private fun toCastItemList(castList: ArrayList<Cast>): List<CastItem.Item>? {
+        val list: MutableList<CastItem.Item>?
+        if (castList.isNullOrEmpty()) {
+            list = null
+        } else {
+            list = ArrayList()
+            castList.forEach { cast ->
+                list.add(CastItem.Item(cast))
+            }
+        }
+        return list
     }
 }

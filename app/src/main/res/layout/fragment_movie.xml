@@ -41,18 +41,54 @@
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_movie"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/item_list"
-            app:spanCount="2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_filter"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/background800"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/rv_movie"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/ic_sort" />
+
+                <TextView
+                    android:id="@+id/tv_sort_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Most Watched"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_movie"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/item_list"
+                app:spanCount="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_filter" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

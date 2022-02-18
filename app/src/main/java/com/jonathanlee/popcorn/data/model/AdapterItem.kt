@@ -9,3 +9,8 @@ sealed class MovieItem {
     data class Item(val movie: Movie) : MovieItem()
     object Footer : MovieItem()
 }
+
+sealed class CastItem {
+    data class Item(val cast: Cast) : CastItem()
+    object More : CastItem()
+}
