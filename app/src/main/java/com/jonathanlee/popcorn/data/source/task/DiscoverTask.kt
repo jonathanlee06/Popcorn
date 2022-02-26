@@ -17,8 +17,11 @@ interface DiscoverTask {
      *
      *  @return [MovieListResponse] response
      */
-    @GET("/3/discover/movie?language=en&sort_by=popularity.desc")
-    suspend fun fetchMovie(@Query("page") page: Int): Response<MovieListResponse>
+    @GET("/3/discover/movie?language=en")
+    suspend fun fetchMovie(
+        @Query("page") page: Int,
+        @Query("sort_by") sortBy: String
+    ): Response<MovieListResponse>
 
     /**
      * [Tv Discover](https://developers.themoviedb.org/3/discover/tv-discover)

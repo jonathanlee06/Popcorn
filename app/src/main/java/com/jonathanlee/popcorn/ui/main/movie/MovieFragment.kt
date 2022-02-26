@@ -13,6 +13,8 @@ import com.jonathanlee.popcorn.data.repository.Repository
 import com.jonathanlee.popcorn.databinding.FragmentMovieBinding
 import com.jonathanlee.popcorn.ui.base.BaseFragment
 import com.jonathanlee.popcorn.ui.common.DialogHelper
+import com.jonathanlee.popcorn.ui.common.option.OptionMenuDialogFragment
+import com.jonathanlee.popcorn.ui.common.option.Options
 import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
@@ -26,6 +28,7 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     override lateinit var presenter: MovieContract.Presenter
     private lateinit var movieListAdapter: MovieAdapter
     private var page: Int = 1
+    private var listLayoutManager: GridLayoutManager? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -120,13 +123,13 @@ class MovieFragment : BaseFragment(), MovieContract.View {
     }
 
     private fun initView() {
-        val listLayoutManager = GridLayoutManager(requireContext(), 2)
+        listLayoutManager = GridLayoutManager(requireContext(), 2)
         movieListAdapter = MovieAdapter(listLayoutManager)
         binding.rvMovie.apply {
             layoutManager = listLayoutManager
             adapter = movieListAdapter
             setOnScrollChangeListener { _, _, _, _, _ ->
-                if (listLayoutManager.findLastCompletelyVisibleItemPosition() == (movieListAdapter.itemCount - 1)) {
+                if (listLayoutManager?.findLastCompletelyVisibleItemPosition() == (movieListAdapter.itemCount - 1)) {
                     presenter.loadMore()
                 }
             }
@@ -142,12 +145,35 @@ class MovieFragment : BaseFragment(), MovieContract.View {
             }
             setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
         }
-        binding.llFilter.setOnClickListener {
-            binding.srlMovie.apply {
-                isRefreshing = true
-                postDelayed({
-                    isRefreshing = false
-                }, 3000L)
+        binding.layoutFilterToolbar.apply {
+            llViewStyle.setOnClickListener {
+                val spanCount = listLayoutManager?.spanCount
+                binding.rvMovie.apply {
+                    listLayoutManager?.spanCount = if (spanCount == 2) 1 else 2
+                    adapter = movieListAdapter.apply {
+                        switchLayout(if (spanCount == 2) 1 else 0)
+                        notifyItemRangeChanged(0, itemCount)
+                    }
+                }
+                viewStyle.setBackgroundResource(getListIcon(listLayoutManager?.spanCount))
+            }
+            llSortBy.setOnClickListener {
+                OptionMenuDialogFragment.show(
+                    manager = mFragmentManager,
+                    data = arrayListOf(
+                        Options(
+                            text = "Most Watched",
+                            leftIcon = R.drawable.ic_list_view
+                        ),
+                        Options(
+                            text = "Least Watched",
+                            leftIcon = R.drawable.ic_grid_view
+                        )
+                    ),
+                    stylingCallback = { binding ->
+                        binding.tvTitle.text = "Sort"
+                    }
+                )
             }
         }
     }

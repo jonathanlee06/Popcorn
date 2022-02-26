@@ -10,11 +10,18 @@
         <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/drawable/logo_white.xml" value="0.29635416666666664" />
         <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/activity_detail.xml" value="0.22" />
         <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/fragment_movie.xml" value="0.190625" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/common_dialog.xml" value="0.22013888888888888" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/fragment_movie.xml" value="0.33" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/fragment_option.xml" value="0.33" />
         <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/fragment_star.xml" value="0.28229166666666666" />
-        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/fragment_tv.xml" value="0.28229166666666666" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/fragment_tv.xml" value="0.22671009771986972" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_cast.xml" value="0.5" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_cast_more.xml" value="0.5" />
         <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_image_loader.xml" value="0.25" />
-        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_list.xml" value="0.25" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_list_grid.xml" value="0.22" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_loading.xml" value="0.2518518518518518" />
+        <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_option.xml" value="0.25" />
         <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_video.xml" value="0.33" />
         <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/item_video_list.xml" value="0.275" />
         <entry key="..\:/Android App Dev/My Projects/Popcorn/app/src/main/res/layout/toolbar_home.xml" value="0.1543026706231454" />

@@ -46,34 +46,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/ll_filter"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@color/background800"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+            <include
+                android:id="@+id/layout_filter_toolbar"
+                layout="@layout/layout_filter_toolbar"
                 app:layout_constraintBottom_toTopOf="@id/rv_movie"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <View
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/ic_sort" />
-
-                <TextView
-                    android:id="@+id/tv_sort_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Most Watched"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_movie"
@@ -81,12 +60,12 @@
                 android:layout_height="0dp"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                tools:listitem="@layout/item_list"
+                tools:listitem="@layout/item_list_grid"
                 app:spanCount="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ll_filter" />
+                app:layout_constraintTop_toBottomOf="@id/layout_filter_toolbar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

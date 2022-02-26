@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_filter"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/background800"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/ll_sort_by"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/view_filter"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:background="@drawable/ic_sort" />
+
+        <TextView
+            android:id="@+id/tv_sort_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Most Watched"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_view_style"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:layout_alignParentEnd="true">
+
+        <View
+            android:id="@+id/view_style"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:background="@drawable/ic_list_view" />
+
+    </LinearLayout>
+
+</RelativeLayout>
