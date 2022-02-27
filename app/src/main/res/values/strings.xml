@@ -16,4 +16,8 @@
     <string name="dialog_common_error_message">An error has occurred, please try again later.</string>
     <string name="dialog_common_error_connection_title">No Internet Connection</string>
     <string name="dialog_common_error_connection_message">Unable to connect to the server. Please check your network connection and try again.</string>
+
+    <string name="option_menu_title_discover_view">Discover View</string>
+    <string name="option_menu_item_detailed_view">Detailed View</string>
+    <string name="option_menu_item_grid_view">Grid View</string>
 </resources>

@@ -1,7 +1,5 @@
 package com.jonathanlee.popcorn.ui.main
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -43,16 +41,5 @@ class MainActivity : AppCompatActivity() {
         binding.titleBar.apply {
             visibility = View.VISIBLE
         }
-    }
-
-    private fun toolbarController() {
-        binding.titleBar
-            .animate()
-            .translationY(-(binding.titleBar.height).toFloat())
-            .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
-                    binding.titleBar.visibility = View.GONE
-                }
-            })
     }
 }

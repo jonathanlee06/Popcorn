@@ -9,8 +9,8 @@ import retrofit2.Response
 class DiscoverRemoteDataSource : DiscoverTask {
     private val discoverTask = Api.provideDiscoverTask()
 
-    override suspend fun fetchMovie(page: Int): Response<MovieListResponse> {
-        return discoverTask.fetchMovie(page)
+    override suspend fun fetchMovie(page: Int, sortBy: String): Response<MovieListResponse> {
+        return discoverTask.fetchMovie(page, sortBy)
     }
 
     override suspend fun fetchTvShow(page: Int): Response<TvShowListResponse> {

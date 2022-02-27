@@ -15,7 +15,7 @@
         <item name="colorPrimary">@color/background900</item>
         <item name="colorPrimaryDark">@color/background900</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/background500</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:navigationBarColor">@color/background900</item>
         <item name="swipeRefreshLayoutProgressSpinnerBackgroundColor">@color/background900</item>
@@ -25,9 +25,14 @@
     </style>
 
     <style name="BottomSheet" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">@color/background900</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog</item>
     </style>
 
     <style name="CollapsedExpandedTitleText" parent="AppTheme">

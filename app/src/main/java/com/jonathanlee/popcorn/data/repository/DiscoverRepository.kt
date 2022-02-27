@@ -28,8 +28,8 @@ class DiscoverRepository private constructor(
         }
     }
 
-    override suspend fun fetchMovie(page: Int): Response<MovieListResponse> {
-        return remoteDataSource.fetchMovie(page)
+    override suspend fun fetchMovie(page: Int, sortBy: String): Response<MovieListResponse> {
+        return remoteDataSource.fetchMovie(page, sortBy)
     }
 
     override suspend fun fetchTvShow(page: Int): Response<TvShowListResponse> {

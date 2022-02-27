@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jonathanlee.popcorn.data.model.CastItem
@@ -52,6 +53,12 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val imagePath = Api.getCastPath(data.profilePath)
                 binding.ivCastPhoto.load(imagePath) {
                     crossfade(true)
+                }
+            }
+            is MoreViewHolder -> {
+                val binding = holder.binding
+                binding.root.setOnClickListener {
+                    Toast.makeText(context, "Feature coming soon...", Toast.LENGTH_SHORT).show()
                 }
             }
         }

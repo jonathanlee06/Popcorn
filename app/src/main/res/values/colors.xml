@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF6868</color>>
     <color name="background">#2B292B</color>
     <color name="background500">#676767</color>
+    <color name="background600">#4E4E4E</color>
     <color name="background800">#212121</color>
     <color name="background900">#151515</color>
     <color name="black">#000000</color>

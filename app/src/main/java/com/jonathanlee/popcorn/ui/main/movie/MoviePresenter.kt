@@ -45,7 +45,7 @@ class MoviePresenter(
     override fun getMovieList(page: Int) {
         scope.launch(Dispatchers.IO) {
             try {
-                val request = discoverRepository.fetchMovie(page)
+                val request = discoverRepository.fetchMovie(page, "popularity.desc")
                 if (request.isSuccessful) {
                     val result = request.body() as MovieListResponse
                     val movieData = result.results as ArrayList<Movie>

@@ -10,15 +10,17 @@ import com.jonathanlee.popcorn.data.model.Movie
 import com.jonathanlee.popcorn.data.model.MovieItem
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.databinding.ItemListBinding
+import com.jonathanlee.popcorn.databinding.ItemListGridBinding
 import com.jonathanlee.popcorn.databinding.ItemLoadingBinding
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 
-class MovieAdapter(private val layoutManager: GridLayoutManager) :
+class MovieAdapter(private val layoutManager: GridLayoutManager?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val movieList: MutableList<MovieItem> = ArrayList()
     private var context: Context? = null
     private var onItemClickListener: AdapterItemClickListener<Movie>? = null
+    private var switchLayout: Boolean = true
 
     companion object {
         private const val TYPE_FOOTER = 0
@@ -36,10 +38,7 @@ class MovieAdapter(private val layoutManager: GridLayoutManager) :
                 FooterViewHolder(binding)
             }
             TYPE_ITEM -> {
-                val binding = ItemListBinding.inflate(
-                    inflater, parent, false
-                )
-                ItemViewHolder(binding)
+                getViewHolder(inflater, parent)
             }
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
@@ -48,6 +47,24 @@ class MovieAdapter(private val layoutManager: GridLayoutManager) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ItemViewHolder -> {
+                val binding = holder.binding
+                if (movieList.isNullOrEmpty()) {
+                    return
+                }
+                val model = movieList[position] as MovieItem.Item
+                binding.root.setOnClickListener {
+                    onItemClickListener?.onItemClicked(position, model.movie)
+                }
+                binding.tvMovieTitle.text = model.movie.title
+                binding.tvPlaceholderTitle.text = model.movie.title
+                if (model.movie.poster_path != null) {
+                    val imagePath = Api.getPosterPath(model.movie.poster_path)
+                    binding.ivPoster.load(imagePath) {
+                        crossfade(true)
+                    }
+                }
+            }
+            is ItemListViewHolder -> {
                 val binding = holder.binding
                 if (movieList.isNullOrEmpty()) {
                     return
@@ -79,6 +96,27 @@ class MovieAdapter(private val layoutManager: GridLayoutManager) :
         }
     }
 
+    private fun getViewHolder(
+        inflater: LayoutInflater,
+        parent: ViewGroup
+    ): RecyclerView.ViewHolder {
+        return if (switchLayout) {
+            val binding = ItemListGridBinding.inflate(
+                inflater, parent, false
+            )
+            ItemViewHolder(binding)
+        } else {
+            val binding = ItemListBinding.inflate(
+                inflater, parent, false
+            )
+            ItemListViewHolder(binding)
+        }
+    }
+
+    fun switchLayout(type: Int) {
+        switchLayout = type == 0
+    }
+
     fun setOnItemClickListener(listener: AdapterItemClickListener<Movie>) {
         onItemClickListener = listener
     }
@@ -103,15 +141,16 @@ class MovieAdapter(private val layoutManager: GridLayoutManager) :
         }
         movieList.add(MovieItem.Footer)
         notifyItemInserted(itemCount - 1)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (position == (itemCount - 1)) {
-                    2
-                } else {
-                    1
+        if (switchLayout) {
+            layoutManager?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (position == (itemCount - 1)) {
+                        2
+                    } else {
+                        1
+                    }
                 }
             }
-
         }
     }
 
@@ -121,18 +160,23 @@ class MovieAdapter(private val layoutManager: GridLayoutManager) :
         }
         movieList.removeAt(itemCount - 1)
         notifyItemRemoved(itemCount)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (position == (itemCount)) {
-                    2
-                } else {
-                    1
+        if (switchLayout) {
+            layoutManager?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (position == (itemCount)) {
+                        2
+                    } else {
+                        1
+                    }
                 }
             }
         }
     }
 
-    inner class ItemViewHolder(val binding: ItemListBinding) :
+    inner class ItemListViewHolder(val binding: ItemListBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    inner class ItemViewHolder(val binding: ItemListGridBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     inner class FooterViewHolder(val binding: ItemLoadingBinding) :

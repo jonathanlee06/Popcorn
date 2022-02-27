@@ -2,54 +2,50 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="16dp"
-    android:background="@color/black">
+    android:layout_height="294dp"
+    android:background="@color/background900">
 
-    <RelativeLayout
-        android:id="@+id/rl_poster"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:background="@color/background900"
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:src="@drawable/logo_white"
         app:layout_constraintBottom_toTopOf="@id/ll_title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:padding="10dp"
-            android:src="@drawable/logo_white"
-            app:tint="@color/background600" />
-
-        <ImageView
-            android:id="@+id/iv_poster"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            android:scaleType="fitXY"
-            android:visibility="visible" />
-
-    </RelativeLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/background600" />
 
     <TextView
         android:id="@+id/tv_placeholder_title"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
         android:text="Test Title"
         android:maxLines="2"
-        android:ellipsize="end"
-        android:textSize="18sp"
-        android:textColor="@color/white"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@color/background600"
         android:textStyle="bold"
-        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toTopOf="@id/ll_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/rl_poster"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="a very long aksgldfkasgjkfgjgasjjashdvfjkhasg" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo" />
+
+    <ImageView
+        android:id="@+id/iv_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@id/ll_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/ll_title"

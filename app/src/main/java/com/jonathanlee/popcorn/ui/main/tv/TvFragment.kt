@@ -12,6 +12,8 @@ import com.jonathanlee.popcorn.data.model.TvItem
 import com.jonathanlee.popcorn.data.repository.Repository
 import com.jonathanlee.popcorn.databinding.FragmentTvBinding
 import com.jonathanlee.popcorn.ui.base.BaseFragment
+import com.jonathanlee.popcorn.ui.common.option.OptionMenuDialogFragment
+import com.jonathanlee.popcorn.ui.common.option.Options
 import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
@@ -23,6 +25,7 @@ class TvFragment : BaseFragment(), TvContract.View {
     override val binding: FragmentTvBinding by viewBinding()
     override lateinit var presenter: TvContract.Presenter
     private lateinit var tvShowListAdapter: TvAdapter
+    private var listLayoutManager: GridLayoutManager? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -111,15 +114,14 @@ class TvFragment : BaseFragment(), TvContract.View {
     }
 
     private fun initView() {
-        val gridLayout = GridLayoutManager(requireContext(), 2)
-        tvShowListAdapter = TvAdapter(gridLayout)
+        listLayoutManager = GridLayoutManager(requireContext(), 2)
+        tvShowListAdapter = TvAdapter(listLayoutManager)
         binding.rvTv.apply {
-            layoutManager = gridLayout
+            layoutManager = listLayoutManager
             adapter = tvShowListAdapter
-            setOnScrollChangeListener { v, _, _, _, _ ->
-                if (gridLayout.findLastCompletelyVisibleItemPosition() == (tvShowListAdapter.itemCount - 1)) {
+            setOnScrollChangeListener { _, _, _, _, _ ->
+                if (listLayoutManager?.findLastCompletelyVisibleItemPosition() == (tvShowListAdapter.itemCount - 1)) {
                     presenter.loadMore()
-                    v.scrollTo(0, tvShowListAdapter.itemCount + 1)
                 }
             }
         }
@@ -133,6 +135,37 @@ class TvFragment : BaseFragment(), TvContract.View {
                 presenter.getTvShowList(1)
             }
             setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+        }
+        binding.layoutFilterToolbar.apply {
+            llViewStyle.setOnClickListener {
+                val spanCount = listLayoutManager?.spanCount
+                binding.rvTv.apply {
+                    listLayoutManager?.spanCount = if (spanCount == 2) 1 else 2
+                    adapter = tvShowListAdapter.apply {
+                        switchLayout(if (spanCount == 2) 1 else 0)
+                        notifyItemRangeChanged(0, itemCount)
+                    }
+                }
+                viewStyle.setBackgroundResource(getListIcon(listLayoutManager?.spanCount))
+            }
+            llSortBy.setOnClickListener {
+                OptionMenuDialogFragment.show(
+                    manager = mFragmentManager,
+                    data = arrayListOf(
+                        Options(
+                            text = "Most Watched",
+                            leftIcon = R.drawable.ic_list_view
+                        ),
+                        Options(
+                            text = "Least Watched",
+                            leftIcon = R.drawable.ic_grid_view
+                        )
+                    ),
+                    stylingCallback = { binding ->
+                        binding.tvTitle.text = "Sort"
+                    }
+                )
+            }
         }
     }
 }
