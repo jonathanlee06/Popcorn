@@ -11,7 +11,7 @@ buildscript {
         targetSdkVersion = 30
 
         // Grable Build Tools
-        gradleBuildTool = '7.0.2'
+        gradleBuildTool = '7.1.2'
 
         // Architectural Components
         fragmentVersion = '1.3.0'

@@ -45,8 +45,8 @@ android {
         applicationId "com.jonathanlee.popcorn"
         minSdk project.minSdkVersion
         targetSdk project.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
