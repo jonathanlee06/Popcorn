@@ -91,6 +91,7 @@ class OptionMenuDialogFragment : BaseBottomSheetDialogFragment(), OptionItemClic
 
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun initExtra() {
         data = arguments?.getSerializable(EXTRA_DATA) as ArrayList<Options>
     }
