@@ -67,7 +67,6 @@ class TvAdapter(private val layoutManager: GridLayoutManager?) :
                 binding.root.setOnClickListener {
                     onItemClickListener?.onItemClicked(position, model.tvShow)
                 }
-                binding.tvMovieTitle.text = model.tvShow.name
                 binding.tvPlaceholderTitle.text = model.tvShow.name
                 if (model.tvShow.poster_path != null) {
                     val imagePath = Api.getPosterPath(model.tvShow.poster_path)

@@ -73,7 +73,6 @@ class MovieAdapter(private val layoutManager: GridLayoutManager?) :
                 binding.root.setOnClickListener {
                     onItemClickListener?.onItemClicked(position, model.movie)
                 }
-                binding.tvMovieTitle.text = model.movie.title
                 binding.tvPlaceholderTitle.text = model.movie.title
                 if (model.movie.poster_path != null) {
                     val imagePath = Api.getPosterPath(model.movie.poster_path)

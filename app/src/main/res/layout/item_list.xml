@@ -12,7 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="150dp"
         android:background="@color/background900"
-        app:layout_constraintBottom_toTopOf="@id/ll_title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -45,38 +45,10 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@id/ll_title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/rl_poster"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="a very long aksgldfkasgjkfgjgasjjashdvfjkhasg" />
-
-    <LinearLayout
-        android:id="@+id/ll_title"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="8dp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_poster">
-
-        <TextView
-            android:id="@+id/tv_movie_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:text="Test Title"
-            android:maxLines="2"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
