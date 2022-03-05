@@ -10,6 +10,8 @@
     <string name="page_detail_synopsis">Synopsis</string>
     <string name="page_detail_reviews">Reviews</string>
 
+    <string name="list_rating_slash_param">%s/10</string>
+
     <string name="dialog_common_error_btn_cancel">Cancel</string>
     <string name="dialog_common_error_btn_ok">OK</string>
     <string name="dialog_common_error_title">Error</string>

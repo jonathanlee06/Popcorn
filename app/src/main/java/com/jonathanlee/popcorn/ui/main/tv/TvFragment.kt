@@ -93,6 +93,7 @@ class TvFragment : BaseFragment(), TvContract.View {
             releaseDate = model.first_air_date,
             summary = model.overview,
             videos = model.videos,
+            vote = model.vote_average.toString(),
             isMovie = false
         )
         navigateTo(

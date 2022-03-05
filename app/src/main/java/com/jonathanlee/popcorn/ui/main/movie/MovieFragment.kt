@@ -102,6 +102,7 @@ class MovieFragment : BaseFragment(), MovieContract.View {
             releaseDate = model.release_date,
             summary = model.overview,
             videos = model.videos,
+            vote = model.vote_average.toString(),
             isMovie = true
         )
         navigateTo(

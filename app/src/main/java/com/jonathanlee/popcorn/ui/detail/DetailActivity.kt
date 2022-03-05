@@ -151,6 +151,10 @@ class DetailActivity : BaseActivity(), DetailContract.View {
             tvDetailTitle.text = details.title
             mtbTitle.title = details.title
             mtbTitle.setNavigationOnClickListener { finish() }
+            tvRating.text = getString(
+                R.string.list_rating_slash_param,
+                details.vote
+            )
             rvCasts.apply {
                 layoutManager =
                     LinearLayoutManager(this@DetailActivity, LinearLayoutManager.HORIZONTAL, false)
