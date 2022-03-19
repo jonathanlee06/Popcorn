@@ -6,4 +6,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Popcorn"
-include ':app'
+include(":app")
