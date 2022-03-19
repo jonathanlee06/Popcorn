@@ -1,4 +1,5 @@
 object AndroidConfig {
+    const val applicationId = "com.jonathanlee.popcorn"
     const val compileSdk = 31
     const val minSdk = 23
     const val targetSdk = 31
@@ -37,7 +38,7 @@ object Versions {
     const val androidxTest = "1.1.3"
     const val unitTestCore = "1.4.0"
     const val mockk = "1.12.0"
-    const val robolectric = "4.3"
+    const val robolectric = "4.7.3"
     const val androidxTestRules = "1.2.0-alpha04"
     const val espresso = "3.2.0"
     const val androidxCoreTesting = "2.1.0"
