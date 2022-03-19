@@ -35,7 +35,7 @@ android {
             keyPassword '123456'
         }
     }
-    compileSdk project.compileSdkVersion
+    compileSdk AndroidConfig.compileSdk
 
     buildFeatures {
         viewBinding true
@@ -43,10 +43,10 @@ android {
 
     defaultConfig {
         applicationId "com.jonathanlee.popcorn"
-        minSdk project.minSdkVersion
-        targetSdk project.targetSdkVersion
-        versionCode 2
-        versionName "1.1"
+        minSdk AndroidConfig.minSdk
+        targetSdk AndroidConfig.targetSdk
+        versionCode AndroidConfig.versionCode
+        versionName AndroidConfig.versionName
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -76,50 +76,50 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation Libraries.coreKtx
+    implementation Libraries.appCompat
+    implementation Libraries.material
+    implementation Libraries.constraintLayout
 
     // architectural components
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.3.1'
+    implementation Libraries.lifecycleExtensions
+    implementation Libraries.lifecycleRuntimeKtx
+    implementation Libraries.lifecycleJava8
 
     // androidx
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'androidx.palette:palette-ktx:1.0.0'
+    implementation Libraries.swipeRefreshLayout
+    implementation Libraries.palette
 
     // coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    implementation Libraries.coroutinesCore
+    implementation Libraries.coroutinesAndroid
+    testImplementation Libraries.coroutinesAndroid
+    testImplementation Libraries.coroutinesTest
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:28.4.1')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation platform(Libraries.firebaseBom)
+    implementation Libraries.firebaseAnalytics
+    implementation Libraries.firebaseCrashlytics
 
     // network
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.google.code.gson:gson:$gsonVersion"
-    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+    implementation Libraries.okhttp
+    implementation Libraries.retrofit
+    implementation Libraries.gson
+    testImplementation Libraries.okhttpTest
 
     // Coil - image loader
-    implementation "io.coil-kt:coil:$coilVersion"
+    implementation Libraries.coil
 
     // Material Dialog
-    implementation "com.afollestad.material-dialogs:core:$materialDialogVersion"
+    implementation Libraries.materialDialog
 
     // unit test
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "androidx.test:core:$unitTestCoreVersion"
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "io.mockk:mockk:$mockkVersion"
-    testImplementation "androidx.arch.core:core-testing:$androidxCoreTestingVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxTest"
-    androidTestImplementation "androidx.test:rules:$androidxTestRules"
+    testImplementation Libraries.junit
+    testImplementation Libraries.unitTestCore
+    testImplementation Libraries.robolectric
+    testImplementation Libraries.mockk
+    testImplementation Libraries.androidxCoreTesting
+    androidTestImplementation Libraries.espresso
+    androidTestImplementation Libraries.androidxTest
+    androidTestImplementation Libraries.androidxTestRules
 }
