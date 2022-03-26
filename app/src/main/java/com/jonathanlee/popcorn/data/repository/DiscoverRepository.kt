@@ -1,14 +1,11 @@
 package com.jonathanlee.popcorn.data.repository
 
-import com.jonathanlee.popcorn.data.model.network.MovieListResponse
-import com.jonathanlee.popcorn.data.model.network.TvShowListResponse
 import com.jonathanlee.popcorn.data.source.remote.DiscoverRemoteDataSource
 import com.jonathanlee.popcorn.data.source.task.DiscoverTask
-import retrofit2.Response
 
 class DiscoverRepository private constructor(
     private val remoteDataSource: DiscoverRemoteDataSource
-) : DiscoverTask {
+) : DiscoverTask by remoteDataSource {
 
     companion object {
         private var INSTANCE: DiscoverRepository? = null
@@ -26,13 +23,5 @@ class DiscoverRepository private constructor(
             INSTANCE = null
             return getInstance(remoteDataSource)
         }
-    }
-
-    override suspend fun fetchMovie(page: Int, sortBy: String): Response<MovieListResponse> {
-        return remoteDataSource.fetchMovie(page, sortBy)
-    }
-
-    override suspend fun fetchTvShow(page: Int): Response<TvShowListResponse> {
-        return remoteDataSource.fetchTvShow(page)
     }
 }
