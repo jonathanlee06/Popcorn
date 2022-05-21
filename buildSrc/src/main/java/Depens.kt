@@ -15,7 +15,7 @@ object Versions {
     const val lifecycle = "2.2.0"
 
     // Coil - Image Loader
-    const val coil = "1.4.0"
+    const val coil = "2.1.0"
 
     // Google
     const val firebase = "2.7.1"
