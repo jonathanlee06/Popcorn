@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jonathanlee.popcorn.R
-import com.jonathanlee.popcorn.data.model.Details
 import com.jonathanlee.popcorn.data.model.Tv
 import com.jonathanlee.popcorn.data.model.TvItem
 import com.jonathanlee.popcorn.data.repository.Repository
@@ -16,6 +15,7 @@ import com.jonathanlee.popcorn.ui.common.option.OptionMenuDialogFragment
 import com.jonathanlee.popcorn.ui.common.option.Options
 import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
+import com.jonathanlee.popcorn.util.DetailUtil
 import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.navigateTo
 import com.jonathanlee.popcorn.util.isNetworkConnected
@@ -84,18 +84,7 @@ class TvFragment : BaseFragment(), TvContract.View {
     }
 
     private fun goToDetail(model: Tv) {
-        val details = Details(
-            id = model.genre_ids,
-            movieId = model.id,
-            backdropPath = model.backdrop_path,
-            posterPath = model.poster_path,
-            title = model.name,
-            releaseDate = model.first_air_date,
-            summary = model.overview,
-            videos = model.videos,
-            vote = model.vote_average.toString(),
-            isMovie = false
-        )
+        val details = DetailUtil.parseToContent(model)
         navigateTo(
             DetailActivity.getStartIntent(
                 requireContext(),

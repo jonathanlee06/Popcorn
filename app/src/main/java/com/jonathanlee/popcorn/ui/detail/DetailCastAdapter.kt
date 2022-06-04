@@ -4,18 +4,19 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.databinding.ItemCastBinding
 import com.jonathanlee.popcorn.databinding.ItemCastMoreBinding
+import com.jonathanlee.popcorn.util.OptionItemClickListener
 
 class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val castList = ArrayList<CastItem>()
     private var context: Context? = null
+    private var onClickListener: OptionItemClickListener? = null
 
     companion object {
         private const val TYPE_ITEM = 0
@@ -58,7 +59,7 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             is MoreViewHolder -> {
                 val binding = holder.binding
                 binding.root.setOnClickListener {
-                    Toast.makeText(context, "Feature coming soon...", Toast.LENGTH_SHORT).show()
+                    onClickListener?.onOptionItemClicked(position)
                 }
             }
         }
@@ -73,6 +74,10 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             is CastItem.Item -> TYPE_ITEM
             is CastItem.More -> TYPE_MORE
         }
+    }
+
+    fun setListener(listener: OptionItemClickListener) {
+        onClickListener = listener
     }
 
     fun updateListData(list: List<CastItem.Item>?) {

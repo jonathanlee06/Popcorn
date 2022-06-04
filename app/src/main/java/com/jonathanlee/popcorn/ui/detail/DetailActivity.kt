@@ -8,29 +8,34 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import coil.transform.BlurTransformation
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.CastItem
-import com.jonathanlee.popcorn.data.model.Details
+import com.jonathanlee.popcorn.data.model.Content
 import com.jonathanlee.popcorn.data.model.Video
 import com.jonathanlee.popcorn.databinding.ActivityDetailBinding
 import com.jonathanlee.popcorn.ui.base.BaseActivity
+import com.jonathanlee.popcorn.ui.common.HorizontalSpaceItemDecoration
+import com.jonathanlee.popcorn.ui.detail.cast.CastListBottomSheetDialogFragment
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
+import com.jonathanlee.popcorn.util.OptionItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
+import com.jonathanlee.popcorn.util.extension.dp
 import com.jonathanlee.popcorn.util.extension.navigateTo
 
 class DetailActivity : BaseActivity(), DetailContract.View {
 
     private val binding: ActivityDetailBinding by viewBinding()
-    private lateinit var details: Details
+    private lateinit var contents: Content
     private var entry: Int = 0
     private val videoList = ArrayList<Video>()
+    private val castList = ArrayList<CastItem.Item>()
     override lateinit var presenter: DetailContract.Presenter
     private lateinit var castAdapter: DetailCastAdapter
     private lateinit var videoAdapter: DetailVideoAdapter
@@ -41,13 +46,13 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         private const val EXTRA_DETAILS = "details"
         private const val EXTRA_ENTRY_POINT = "entryPoint"
 
-        fun getStartIntent(context: Context, details: Details, entry: Int): Intent {
+        fun getStartIntent(context: Context, content: Content, entry: Int): Intent {
             val intent = Intent(context, DetailActivity::class.java)
             if (context !is Activity) {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.putExtra(EXTRA_DETAILS, details)
+            intent.putExtra(EXTRA_DETAILS, content)
             intent.putExtra(EXTRA_ENTRY_POINT, entry)
             return intent
         }
@@ -61,17 +66,11 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
 
     override fun setBackdropImage(path: String?) {
-        val placeholder = ColorDrawable(ContextCompat.getColor(this, R.color.black))
+        val placeholder = ColorDrawable(ContextCompat.getColor(this, R.color.background900))
         if (!path.isNullOrEmpty()) {
             binding.ivBackdrop.load(path) {
                 crossfade(true)
                 placeholder(placeholder)
-                transformations(
-                    BlurTransformation(
-                        context = this@DetailActivity,
-                        radius = 1F
-                    )
-                )
             }
         }
     }
@@ -87,8 +86,22 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
 
     override fun setCasts(cast: List<CastItem.Item>?) {
-        val limitedCastItem = cast?.take(5)
+        castList.apply {
+            clear()
+            if (cast != null) {
+                addAll(cast)
+            }
+        }
+        val limitedCastItem = castList.take(5)
         castAdapter.updateListData(limitedCastItem)
+        castAdapter.setListener(object : OptionItemClickListener {
+            override fun onOptionItemClicked(position: Int) {
+                CastListBottomSheetDialogFragment.show(
+                    manager = supportFragmentManager,
+                    data = castList
+                )
+            }
+        })
     }
 
     override fun setGenres(genres: ArrayList<String>) {
@@ -128,12 +141,12 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
 
     private fun initData() {
-        val localDetails = intent.getParcelableExtra(EXTRA_DETAILS) as? Details
+        val localDetails = intent.getParcelableExtra(EXTRA_DETAILS) as? Content
         if (localDetails == null) {
             finish()
             return
         }
-        details = localDetails
+        contents = localDetails
         entry = intent.getIntExtra(EXTRA_ENTRY_POINT, entry)
     }
 
@@ -142,18 +155,28 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
 
     private fun initView() {
+        window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = Color.TRANSPARENT
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
         castAdapter = DetailCastAdapter()
         videoAdapter = DetailVideoAdapter()
         binding.apply {
+            val contentDetails = contents.contentDetails
             window.statusBarColor = Color.TRANSPARENT
-            tvDetailDate.text = getString(R.string.page_detail_release_date, details.releaseDate)
-            tvDetailSummary.text = details.summary
-            tvDetailTitle.text = details.title
-            mtbTitle.title = details.title
+            tvDetailDate.text =
+                getString(R.string.page_detail_release_date, contentDetails.releaseDate)
+            tvDetailSummary.text = contentDetails.summary
+            tvDetailTitleTop.text = contentDetails.title
+            mtbTitle.title = contentDetails.title
             mtbTitle.setNavigationOnClickListener { finish() }
-            tvRating.text = getString(
-                R.string.list_rating_slash_param,
-                details.vote
+            val votePercentage = contents.vote.vote?.times(10)?.toInt().toString()
+            viewVote.tvRating.text = "$votePercentage%"
+            viewVote.tvRatingCount.text = getString(
+                R.string.list_rating_count,
+                contents.vote.voteCount
             )
             rvCasts.apply {
                 layoutManager =
@@ -161,6 +184,9 @@ class DetailActivity : BaseActivity(), DetailContract.View {
                 adapter = castAdapter
                 setHasFixedSize(true)
                 isNestedScrollingEnabled = false
+                addItemDecoration(
+                    HorizontalSpaceItemDecoration(5.dp)
+                )
             }
             rvVideos.apply {
                 layoutManager =
@@ -176,6 +202,6 @@ class DetailActivity : BaseActivity(), DetailContract.View {
                 topMargin = getStatusBarSize()
             }
         }
-        presenter.getDetails(details, entry)
+        presenter.getDetails(contents.contentDetails, entry)
     }
 }

@@ -10,7 +10,8 @@
     <string name="page_detail_synopsis">Synopsis</string>
     <string name="page_detail_reviews">Reviews</string>
 
-    <string name="list_rating_slash_param">%s/10</string>
+    <string name="list_rating_slash_param">%s</string>
+    <string name="list_rating_count">%s votes</string>
 
     <string name="dialog_common_error_btn_cancel">Cancel</string>
     <string name="dialog_common_error_btn_ok">OK</string>
@@ -22,4 +23,6 @@
     <string name="option_menu_title_discover_view">Discover View</string>
     <string name="option_menu_item_detailed_view">Detailed View</string>
     <string name="option_menu_item_grid_view">Grid View</string>
+
+    <string name="cast_menu_title">Cast List</string>
 </resources>
