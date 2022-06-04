@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Tv
 import com.jonathanlee.popcorn.data.model.TvItem
 import com.jonathanlee.popcorn.data.source.Api
@@ -68,10 +67,8 @@ class TvAdapter(private val layoutManager: GridLayoutManager?) :
                 binding.root.setOnClickListener {
                     onItemClickListener?.onItemClicked(position, model.tvShow)
                 }
-                binding.tvRating.text = context?.getString(
-                    R.string.list_rating_slash_param,
-                    model.tvShow.vote_average.toString()
-                )
+                val votePercentage = model.tvShow.vote_average.times(10).toInt().toString()
+                binding.tvRating.text = "$votePercentage%"
                 binding.tvPlaceholderTitle.text = model.tvShow.name
                 if (model.tvShow.poster_path != null) {
                     val imagePath = Api.getPosterPath(model.tvShow.poster_path)

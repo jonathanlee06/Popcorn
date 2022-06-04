@@ -26,19 +26,19 @@ class DetailPresenter(
         private const val MOVIE_GENRE_LIST = "movieGenre"
     }
 
-    override fun getDetails(details: Details, entry: Int) {
+    override fun getDetails(contentDetails: ContentDetails, entry: Int) {
         scope.launch(Dispatchers.IO) {
-            async { getBackdropImage(details.backdropPath) }
-            async { getBackdropPoster(details.posterPath) }
-            async { getCasts(details.movieId, entry) }
-            async { getGenres(details.id) }
-            async { getVideos(details.movieId, entry) }
+            async { getBackdropImage(contentDetails.backdropPath) }
+            async { getBackdropPoster(contentDetails.posterPath) }
+            async { getCasts(contentDetails.contentId, entry) }
+            async { getGenres(contentDetails.genreId) }
+            async { getVideos(contentDetails.contentId, entry) }
         }
     }
 
     override fun getBackdropImage(path: String?) {
         scope.launch(Dispatchers.Main) {
-            val fullPath = Api.getBackdropSmallPath(path)
+            val fullPath = Api.getBackdropPath(path)
             view.setBackdropImage(fullPath)
         }
     }

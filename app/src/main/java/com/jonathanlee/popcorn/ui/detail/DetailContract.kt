@@ -1,7 +1,7 @@
 package com.jonathanlee.popcorn.ui.detail
 
 import com.jonathanlee.popcorn.data.model.CastItem
-import com.jonathanlee.popcorn.data.model.Details
+import com.jonathanlee.popcorn.data.model.ContentDetails
 import com.jonathanlee.popcorn.data.model.Video
 import com.jonathanlee.popcorn.ui.base.BaseContract
 
@@ -21,7 +21,7 @@ interface DetailContract {
     }
 
     interface Presenter : BaseContract.Presenter {
-        fun getDetails(details: Details, entry: Int)
+        fun getDetails(contentDetails: ContentDetails, entry: Int)
 
         fun getBackdropImage(path: String?)
 

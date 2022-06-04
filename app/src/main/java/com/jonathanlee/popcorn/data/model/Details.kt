@@ -15,5 +15,6 @@ data class Details(
     val summary: String,
     var videos: List<Video>? = ArrayList(),
     val vote: String? = null,
+    val voteCount: String? = null,
     val isMovie: Boolean
 ) : Parcelable
