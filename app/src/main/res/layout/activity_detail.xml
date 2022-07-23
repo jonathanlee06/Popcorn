@@ -114,30 +114,68 @@
                             android:id="@+id/tv_detail_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
                             android:layout_below="@id/view_vote"
-                            android:textSize="14sp"
+                            android:layout_marginTop="16dp"
                             android:textColor="@color/white"
+                            android:textSize="14sp"
                             tools:text="Release Date: 10/10/2021" />
 
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/chip_genre"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-                            android:layout_marginTop="16dp"
                             android:layout_below="@id/tv_detail_date"
-                            app:singleLine="false" />
+                            android:orientation="horizontal">
+
+                            <include
+                                android:id="@+id/view_producer"
+                                layout="@layout/layout_content_producer"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginTop="16dp"
+                                android:visibility="gone"
+                                tools:visibility="visible" />
+
+                            <include
+                                android:id="@+id/view_certification"
+                                layout="@layout/layout_content_certification"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginTop="16dp"
+                                android:visibility="gone"
+                                tools:visibility="visible" />
+
+                        </LinearLayout>
 
                     </RelativeLayout>
 
                 </LinearLayout>
 
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:nestedScrollingEnabled="false"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_genre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        app:singleLine="true" />
+
+                </HorizontalScrollView>
+
                 <TextView
                     android:id="@+id/tv_trailers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="16dp"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
                     android:text="@string/page_detail_trailer"

@@ -1,7 +1,9 @@
 package com.jonathanlee.popcorn.data.source.task
 
+import com.jonathanlee.popcorn.data.model.TvDetails
 import com.jonathanlee.popcorn.data.model.network.CastListResponse
 import com.jonathanlee.popcorn.data.model.network.GenreListResponse
+import com.jonathanlee.popcorn.data.model.network.TvShowClassification
 import com.jonathanlee.popcorn.data.model.network.VideoListResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -71,4 +73,24 @@ interface DetailTask {
      */
     @GET("/3/tv/{tv_id}/credits")
     suspend fun fetchTvCast(@Path("tv_id") id: Int): Response<CastListResponse>
+
+    /**
+     * [Drama Details](https://developers.themoviedb.org/3/tv/get-tv-details)
+     *
+     * Get the details of a drama
+     *
+     * @return [TvDetails] response
+     */
+    @GET("/3/tv/{tv_id}")
+    suspend fun fetchTvDetail(@Path("tv_id") id: Int): Response<TvDetails>
+
+    /**
+     * [Drama Content Ratings](https://developers.themoviedb.org/3/tv/get-tv-content-ratings)
+     *
+     * Get the classification ratings of a drama
+     *
+     * @return [TvShowClassification] response
+     */
+    @GET("/3/tv/{tv_id}/content_ratings")
+    suspend fun fetchTvClassification(@Path("tv_id") id: Int): Response<TvShowClassification>
 }

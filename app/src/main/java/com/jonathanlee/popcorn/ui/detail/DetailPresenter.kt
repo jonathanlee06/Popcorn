@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.jonathanlee.popcorn.data.model.*
 import com.jonathanlee.popcorn.data.model.network.CastListResponse
 import com.jonathanlee.popcorn.data.model.network.GenreListResponse
+import com.jonathanlee.popcorn.data.model.network.TvShowClassification
 import com.jonathanlee.popcorn.data.model.network.VideoListResponse
 import com.jonathanlee.popcorn.data.repository.DetailRepository
 import com.jonathanlee.popcorn.data.repository.Repository
@@ -27,7 +28,10 @@ class DetailPresenter(
     }
 
     override fun getDetails(contentDetails: ContentDetails, entry: Int) {
+        Log.d("getDetails", "getDetails: id=${contentDetails.contentId}")
         scope.launch(Dispatchers.IO) {
+            async { getContentClassification(contentDetails.contentId, entry) }
+            async { getContentProducer(contentDetails.contentId, entry) }
             async { getBackdropImage(contentDetails.backdropPath) }
             async { getBackdropPoster(contentDetails.posterPath) }
             async { getCasts(contentDetails.contentId, entry) }
@@ -70,6 +74,47 @@ class DetailPresenter(
                 }
             } catch (e: Exception) {
                 Log.e("getCasts", "getGenres: error=${e.message}")
+            }
+        }
+    }
+
+    override fun getContentProducer(id: Int, entry: Int) {
+        if (entry == DetailActivity.ENTRY_FROM_MOVIE) return
+        scope.launch(Dispatchers.IO) {
+            try {
+                val request = detailRepository.fetchTvDetail(id)
+                if (request.isSuccessful) {
+                    val result = request.body() as TvDetails
+                    val name = result.networks[0].name
+                    withContext(Dispatchers.Main) {
+                        view.setContentProducer(name)
+                    }
+                } else {
+                    Log.d("getContentProducer", "response error=${request.errorBody()}")
+                }
+            } catch (e: Exception) {
+                Log.e("getContentProducer", "getContentProducer: error=${e.message}")
+            }
+        }
+    }
+
+    override fun getContentClassification(id: Int, entry: Int) {
+        if (entry == DetailActivity.ENTRY_FROM_MOVIE) return
+        scope.launch(Dispatchers.IO) {
+            try {
+                val request = detailRepository.fetchTvClassification(id)
+                if (request.isSuccessful) {
+                    val result = request.body() as TvShowClassification
+                    val classification = result.results.single { res -> res.location == "US" }
+                    Log.d("getContentClassification", "classification=$classification")
+                    withContext(Dispatchers.Main) {
+                        view.setContentClassification(classification.rating)
+                    }
+                } else {
+                    Log.d("getContentClassification", "response error=${request.errorBody()}")
+                }
+            } catch (e: Exception) {
+                Log.e("getContentClassification", "getContentClassification: error=${e.message}")
             }
         }
     }

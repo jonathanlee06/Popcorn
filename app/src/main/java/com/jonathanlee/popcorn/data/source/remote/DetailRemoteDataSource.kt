@@ -1,7 +1,9 @@
 package com.jonathanlee.popcorn.data.source.remote
 
+import com.jonathanlee.popcorn.data.model.TvDetails
 import com.jonathanlee.popcorn.data.model.network.CastListResponse
 import com.jonathanlee.popcorn.data.model.network.GenreListResponse
+import com.jonathanlee.popcorn.data.model.network.TvShowClassification
 import com.jonathanlee.popcorn.data.model.network.VideoListResponse
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.data.source.task.DetailTask
@@ -32,5 +34,13 @@ class DetailRemoteDataSource : DetailTask {
 
     override suspend fun fetchTvCast(id: Int): Response<CastListResponse> {
         return detailTask.fetchTvCast(id)
+    }
+
+    override suspend fun fetchTvDetail(id: Int): Response<TvDetails> {
+        return detailTask.fetchTvDetail(id)
+    }
+
+    override suspend fun fetchTvClassification(id: Int): Response<TvShowClassification> {
+        return detailTask.fetchTvClassification(id)
     }
 }

@@ -92,8 +92,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
                 addAll(cast)
             }
         }
-        val limitedCastItem = castList.take(5)
-        castAdapter.updateListData(limitedCastItem)
+        castAdapter.updateListData(castList)
         castAdapter.setListener(object : OptionItemClickListener {
             override fun onOptionItemClicked(position: Int) {
                 CastListBottomSheetDialogFragment.show(
@@ -118,6 +117,28 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         binding.apply {
             tvTrailers.visibility = View.GONE
             rvVideos.visibility = View.GONE
+        }
+    }
+
+    override fun setContentProducer(name: String?) {
+        if (!name.isNullOrEmpty()) {
+            binding.viewProducer.apply {
+                root.visibility = View.VISIBLE
+                tvProducerName.text = name
+            }
+        } else {
+            binding.viewProducer.root.visibility = View.GONE
+        }
+    }
+
+    override fun setContentClassification(classification: String?) {
+        if (!classification.isNullOrEmpty()) {
+            binding.viewCertification.apply {
+                root.visibility = View.VISIBLE
+                tvCertificationContent.text = classification
+            }
+        } else {
+            binding.viewCertification.root.visibility = View.GONE
         }
     }
 

@@ -83,8 +83,8 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun updateListData(list: List<CastItem.Item>?) {
         list?.let {
             val listWithMore: MutableList<CastItem> = ArrayList<CastItem>().apply {
-                addAll(list)
-                add(CastItem.More)
+                addAll(list.take(5))
+                if (list.size > 5) add(CastItem.More)
             }
             Log.d("cast", "updateListData: listSize=${listWithMore.size}")
             castList.apply {
