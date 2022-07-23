@@ -18,6 +18,10 @@ interface DetailContract {
         fun setVideos(video: ArrayList<Video>)
 
         fun setNoVideos()
+
+        fun setContentProducer(name: String?)
+
+        fun setContentClassification(classification: String?)
     }
 
     interface Presenter : BaseContract.Presenter {
@@ -32,5 +36,9 @@ interface DetailContract {
         fun getCasts(id: Int, entry: Int)
 
         fun getVideos(id: Int, entry: Int)
+
+        fun getContentProducer(id: Int, entry: Int)
+
+        fun getContentClassification(id: Int, entry: Int)
     }
 }
