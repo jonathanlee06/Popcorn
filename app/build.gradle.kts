@@ -70,6 +70,7 @@ dependencies {
     implementation(Libraries.appCompat)
     implementation(Libraries.material)
     implementation(Libraries.constraintLayout)
+    implementation(Libraries.scrollingIndicator)
 
     // architectural components
     implementation(Libraries.lifecycleExtensions)
@@ -77,6 +78,8 @@ dependencies {
     implementation(Libraries.lifecycleJava8)
 
     // androidx
+    implementation(Libraries.activityKtx)
+    implementation(Libraries.fragmentKtx)
     implementation(Libraries.swipeRefreshLayout)
     implementation(Libraries.palette)
 

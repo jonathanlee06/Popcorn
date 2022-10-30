@@ -6,60 +6,117 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:background="@color/background900">
 
-    <TextView
-        android:id="@+id/tv_ratings"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ratings"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/ll_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_ratings">
+        <ProgressBar
+            android:id="@+id/progress_pop"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_marginTop="12dp"
+            android:indeterminateOnly="false"
+            android:progressDrawable="@drawable/circular_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_pop"
+            tools:progress="70" />
 
-        <ImageView
-            android:id="@+id/iv_rating_star"
+        <TextView
+            android:id="@+id/tv_pop_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_star_40"
-            app:tint="#FFC107" />
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="100%"
+            app:layout_constraintBottom_toBottomOf="@id/progress_pop"
+            app:layout_constraintEnd_toEndOf="@id/progress_pop"
+            app:layout_constraintStart_toStartOf="@id/progress_pop"
+            app:layout_constraintTop_toTopOf="@id/progress_pop" />
+
+        <TextView
+            android:id="@+id/tv_pop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ratings"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/cl_rating"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_ratings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ratings"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
+            android:id="@+id/ll_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_ratings">
 
-            <TextView
-                android:id="@+id/tv_rating"
+            <ImageView
+                android:id="@+id/iv_rating_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                tools:text="85%" />
+                android:src="@drawable/ic_star_40"
+                app:tint="#FFC107"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tv_rating_count"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                tools:text="1k votes" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:text="85%" />
+
+                <TextView
+                    android:id="@+id/tv_rating_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    tools:text="1k votes" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

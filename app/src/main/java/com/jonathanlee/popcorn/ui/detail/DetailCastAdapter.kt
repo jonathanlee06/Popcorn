@@ -10,13 +10,12 @@ import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.databinding.ItemCastBinding
 import com.jonathanlee.popcorn.databinding.ItemCastMoreBinding
-import com.jonathanlee.popcorn.util.OptionItemClickListener
 
 class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val castList = ArrayList<CastItem>()
     private var context: Context? = null
-    private var onClickListener: OptionItemClickListener? = null
+    private var onClickListener: CastOnClickListener? = null
 
     companion object {
         private const val TYPE_ITEM = 0
@@ -51,15 +50,18 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val data = castItem.cast
                 binding.itemCastName.text = data.name
                 binding.itemCharacterName.text = data.character
-                val imagePath = Api.getCastPath(data.profilePath)
+                val imagePath = Api.getPosterPath(data.profilePath)
                 binding.ivCastPhoto.load(imagePath) {
                     crossfade(true)
+                }
+                binding.root.setOnClickListener {
+                    onClickListener?.onCastClick(position)
                 }
             }
             is MoreViewHolder -> {
                 val binding = holder.binding
                 binding.root.setOnClickListener {
-                    onClickListener?.onOptionItemClicked(position)
+                    onClickListener?.onMoreClick()
                 }
             }
         }
@@ -76,7 +78,7 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun setListener(listener: OptionItemClickListener) {
+    fun setListener(listener: CastOnClickListener) {
         onClickListener = listener
     }
 
@@ -99,4 +101,9 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class MoreViewHolder(val binding: ItemCastMoreBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    interface CastOnClickListener {
+        fun onCastClick(position: Int)
+        fun onMoreClick()
+    }
 }

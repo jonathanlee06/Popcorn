@@ -15,4 +15,7 @@
     <color name="cay">#00BCD4</color>
     <color name="transparent">#00000000</color>
     <color name="color_282828">#282828</color>
+    <color name="color_red">#da266a</color>
+    <color name="color_yellow">#d8d91c</color>
+    <color name="color_green">#40d582</color>
 </resources>

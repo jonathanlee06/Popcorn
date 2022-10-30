@@ -5,26 +5,29 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
 import com.jonathanlee.popcorn.R
+import com.jonathanlee.popcorn.data.model.CastCredit
 import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.data.model.Content
 import com.jonathanlee.popcorn.data.model.Video
 import com.jonathanlee.popcorn.databinding.ActivityDetailBinding
 import com.jonathanlee.popcorn.ui.base.BaseActivity
 import com.jonathanlee.popcorn.ui.common.HorizontalSpaceItemDecoration
-import com.jonathanlee.popcorn.ui.detail.cast.CastListBottomSheetDialogFragment
+import com.jonathanlee.popcorn.ui.detail.cast.CastDetailBottomSheetDialogFragment
+import com.jonathanlee.popcorn.ui.detail.cast.CastListActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
-import com.jonathanlee.popcorn.util.OptionItemClickListener
 import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.dp
 import com.jonathanlee.popcorn.util.extension.navigateTo
@@ -93,14 +96,26 @@ class DetailActivity : BaseActivity(), DetailContract.View {
             }
         }
         castAdapter.updateListData(castList)
-        castAdapter.setListener(object : OptionItemClickListener {
-            override fun onOptionItemClicked(position: Int) {
-                CastListBottomSheetDialogFragment.show(
+        castAdapter.setListener(object : DetailCastAdapter.CastOnClickListener {
+            override fun onCastClick(position: Int) {
+                CastDetailBottomSheetDialogFragment.show(
                     manager = supportFragmentManager,
-                    data = castList
+                    data = castList.getOrNull(position)?.cast,
+                    listener = object : CastDetailBottomSheetDialogFragment.Listener {
+                        override fun onCreditClick(credit: CastCredit) {
+                            finish()
+                        }
+
+                    }
                 )
             }
+
+            override fun onMoreClick() {
+                clickSeeMore()
+            }
+
         })
+        binding.rlSeeMore.visibility = if (castList.size > 5) View.VISIBLE else View.GONE
     }
 
     override fun setGenres(genres: ArrayList<String>) {
@@ -161,6 +176,10 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         }
     }
 
+    private fun clickSeeMore() {
+        navigateTo(CastListActivity.getStartIntent(this, castList))
+    }
+
     private fun initData() {
         val localDetails = intent.getParcelableExtra(EXTRA_DETAILS) as? Content
         if (localDetails == null) {
@@ -199,6 +218,12 @@ class DetailActivity : BaseActivity(), DetailContract.View {
                 R.string.list_rating_count,
                 contents.vote.voteCount
             )
+            val popularity = contents.vote.vote?.times(10)?.toInt() ?: 0
+            viewVote.progressPop.progress = popularity
+            viewVote.tvPopPercent.text =
+                String.format(getString(R.string.cast_popularity_percentage), popularity)
+            setProgressColor(popularity)
+            rlSeeMore.setOnClickListener { clickSeeMore() }
             rvCasts.apply {
                 layoutManager =
                     LinearLayoutManager(this@DetailActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -224,5 +249,25 @@ class DetailActivity : BaseActivity(), DetailContract.View {
             }
         }
         presenter.getDetails(contents.contentDetails, entry)
+    }
+
+    private fun setProgressColor(popularity: Int) {
+        val drawable =
+            ContextCompat.getDrawable(this, R.drawable.circular_progress) as LayerDrawable
+        val bar = drawable.findDrawableByLayerId(R.id.inner_ring)
+        when {
+            popularity < 40 -> {
+                DrawableCompat.setTint(bar, ContextCompat.getColor(this, R.color.color_red))
+                //bar.setTint(ContextCompat.getColor(this, R.color.color_red))
+            }
+            popularity in 40..69 -> {
+                DrawableCompat.setTint(bar, ContextCompat.getColor(this, R.color.color_yellow))
+                //bar.setTint(ContextCompat.getColor(this, R.color.color_yellow))
+            }
+            popularity >= 70 -> {
+                DrawableCompat.setTint(bar, ContextCompat.getColor(this, R.color.color_green))
+                //bar.setTint(ContextCompat.getColor(this, R.color.color_green))
+            }
+        }
     }
 }
