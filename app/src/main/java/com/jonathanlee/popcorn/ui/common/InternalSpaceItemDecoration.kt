@@ -21,11 +21,8 @@ class GridInternalSpaceItemDecoration(
         val padding = parent.width / gridSize - frameWidth
         val itemPosition =
             (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
-        if (itemPosition < gridSize) {
-            outRect.top = 0
-        } else {
-            outRect.top = sizeGridSpacingPx
-        }
+        outRect.bottom = sizeGridSpacingPx
+        outRect.top = sizeGridSpacingPx
         if (itemPosition % gridSize == 0) {
             outRect.left = 0
             outRect.right = padding

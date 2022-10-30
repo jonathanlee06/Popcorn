@@ -25,4 +25,5 @@
     <string name="option_menu_item_grid_view">Grid View</string>
 
     <string name="cast_menu_title">Cast List</string>
+    <string name="cast_popularity_percentage">%d%%</string>
 </resources>

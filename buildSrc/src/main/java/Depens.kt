@@ -11,6 +11,7 @@ object Versions {
     const val gradle = "7.1.2"
 
     // Architectural Components
+    const val activityKtx = "1.4.0"
     const val material = "1.4.0"
     const val lifecycle = "2.2.0"
 
@@ -55,6 +56,8 @@ object Libraries {
     const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // Architectural Components
+    const val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtx}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.activityKtx}"
     const val material = "com.google.android.material:material:${Versions.material}"
     const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val lifecycleJava8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
@@ -89,6 +92,10 @@ object Libraries {
     const val retrofit = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
     const val okhttp = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
     const val okhttpTest = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
+
+    // Scrolling indicator
+    const val scrollingIndicator =
+        "ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator:1.0.6"
 
     // Unit Test
     const val junit = "junit:junit:${Versions.junit}"

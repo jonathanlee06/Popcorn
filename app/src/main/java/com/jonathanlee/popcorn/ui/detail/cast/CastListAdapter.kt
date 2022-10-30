@@ -29,7 +29,7 @@ class CastListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 binding.root.setOnClickListener { onClickListener?.onOptionItemClicked(position) }
                 binding.itemCastName.text = data.name
                 binding.itemCharacterName.text = data.character
-                val imagePath = Api.getCastPath(data.profilePath)
+                val imagePath = Api.getPosterPath(data.profilePath)
                 binding.ivCastPhoto.load(imagePath) {
                     crossfade(true)
                 }

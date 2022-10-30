@@ -1,5 +1,6 @@
 package com.jonathanlee.popcorn.data.source
 
+import com.jonathanlee.popcorn.data.source.task.CastTask
 import com.jonathanlee.popcorn.data.source.task.DetailTask
 import com.jonathanlee.popcorn.data.source.task.DiscoverTask
 import okhttp3.OkHttpClient
@@ -12,6 +13,7 @@ object Api {
     private const val BASE_BACKDROP_PATH = "https://image.tmdb.org/t/p/w780"
     private const val BASE_BACKDROP_SMALL_PATH = "https://image.tmdb.org/t/p/w300"
     private const val BASE_CAST_PATH = "https://image.tmdb.org/t/p/w342"
+    private const val BASE_IMDB_CAST_PATH = "https://www.imdb.com/name/"
     private const val YOUTUBE_VIDEO_URL = "https://www.youtube.com/watch?v="
     private const val YOUTUBE_THUMBNAIL_URL = "https://img.youtube.com/vi/"
 
@@ -29,6 +31,10 @@ object Api {
 
     fun getCastPath(castPath: String?): String {
         return BASE_CAST_PATH + castPath
+    }
+
+    fun getImdbPath(castPath: String?): String {
+        return BASE_IMDB_CAST_PATH + castPath
     }
 
     fun getYoutubeVideoPath(videoPath: String?): String {
@@ -64,4 +70,15 @@ object Api {
         val retrofit = provideRetrofit()
         return retrofit.create(DiscoverTask::class.java)
     }
+
+    fun provideCastTask(): CastTask {
+        val retrofit = provideRetrofit()
+        return retrofit.create(CastTask::class.java)
+    }
+}
+
+sealed class ApiResultState<out T> {
+    object Loading : ApiResultState<Nothing>()
+    data class Success<out T>(val data: T) : ApiResultState<T>()
+    data class Failure(val exception: String?) : ApiResultState<Nothing>()
 }
