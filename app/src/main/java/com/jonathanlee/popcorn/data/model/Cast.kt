@@ -2,6 +2,7 @@ package com.jonathanlee.popcorn.data.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.jonathanlee.popcorn.data.model.network.SearchModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -53,7 +54,7 @@ data class CastCredit(
     @SerializedName("adult") val adult: Boolean?,
     @SerializedName("backdrop_path") val backdropPath: String?,
     @SerializedName("genre_ids") val genreIds: ArrayList<Int>,
-    @SerializedName("id") val id: Int?,
+    @SerializedName("id") val id: Int,
     @SerializedName("original_language") val originalLanguage: String?,
     @SerializedName("original_title") val originalTitle: String?,
     @SerializedName("overview") val overview: String?,
@@ -62,14 +63,16 @@ data class CastCredit(
     @SerializedName("release_date") val releaseDate: String?,
     @SerializedName("title") val title: String?,
     @SerializedName("video") val video: Boolean?,
-    @SerializedName("vote_average") val voteAverage: Double?,
+    @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("vote_count") val voteCount: Int?,
     @SerializedName("character") val character: String?,
     @SerializedName("credit_id") val creditId: String?,
     @SerializedName("order") val order: Int?,
-    @SerializedName("media_type") val mediaType: String?
+    @SerializedName("media_type") val mediaType: String?,
+    @SerializedName("name") val name: String,
+    @SerializedName("first_air_date") val firstAirDate: String,
 
-)
+    )
 
 data class CastPhoto(
     @SerializedName("aspect_ratio") var aspectRatio: Double?,
@@ -78,5 +81,22 @@ data class CastPhoto(
     @SerializedName("iso_639_1") var iso6391: String?,
     @SerializedName("vote_average") var voteAverage: Double?,
     @SerializedName("vote_count") var voteCount: Int?,
-    @SerializedName("width") var width: Int?
+    @SerializedName("width") var width: Int?,
 )
+
+fun parseToCast(model: SearchModel): Cast {
+    return Cast(
+        adult = model.adult,
+        gender = 0,
+        knownForDepartment = "",
+        name = model.name ?: "",
+        originalName = model.originalName ?: "",
+        popularity = model.popularity.toDouble(),
+        id = model.id,
+        profilePath = model.profilePath,
+        castId = model.id,
+        character = "",
+        creditId = "",
+        order = 0
+    )
+}

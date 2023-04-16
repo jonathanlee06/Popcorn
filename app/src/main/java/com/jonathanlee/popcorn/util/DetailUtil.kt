@@ -1,6 +1,12 @@
 package com.jonathanlee.popcorn.util
 
-import com.jonathanlee.popcorn.data.model.*
+import com.jonathanlee.popcorn.data.model.CastCredit
+import com.jonathanlee.popcorn.data.model.Content
+import com.jonathanlee.popcorn.data.model.ContentDetails
+import com.jonathanlee.popcorn.data.model.Movie
+import com.jonathanlee.popcorn.data.model.Tv
+import com.jonathanlee.popcorn.data.model.Vote
+import com.jonathanlee.popcorn.data.model.network.SearchModel
 
 object DetailUtil {
     fun <T> parseToContent(content: T): Content {
@@ -41,6 +47,49 @@ object DetailUtil {
                     )
                 )
             }
+
+            is SearchModel -> {
+                val contentTitle = if (content.mediaType == "movie") content.title else content.name
+                val title = contentTitle ?: ""
+                Content(
+                    contentDetails = ContentDetails(
+                        contentId = content.id,
+                        genreId = content.genreIds,
+                        backdropPath = content.backdropPath,
+                        posterPath = content.posterPath,
+                        title = title,
+                        releaseDate = content.firstAirDate,
+                        summary = content.overview ?: ""
+                    ),
+                    videos = null,
+                    vote = Vote(
+                        vote = content.voteAverage,
+                        voteCount = content.voteCount.toString()
+                    )
+                )
+            }
+
+            is CastCredit -> {
+                val contentTitle = if (content.mediaType == "movie") content.title else content.name
+                val title = contentTitle ?: ""
+                Content(
+                    contentDetails = ContentDetails(
+                        contentId = content.id,
+                        genreId = content.genreIds,
+                        backdropPath = content.backdropPath,
+                        posterPath = content.posterPath,
+                        title = title,
+                        releaseDate = content.firstAirDate,
+                        summary = content.overview ?: ""
+                    ),
+                    videos = null,
+                    vote = Vote(
+                        vote = content.voteAverage.toFloat(),
+                        voteCount = content.voteCount.toString()
+                    )
+                )
+            }
+
             else -> throw Exception("unknown content type")
         }
     }
