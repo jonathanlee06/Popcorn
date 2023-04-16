@@ -5,11 +5,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
+import com.jonathanlee.bindingdelegate.ext.viewBinding
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.databinding.ActivityMainBinding
 import com.jonathanlee.popcorn.ui.main.movie.MovieFragment
 import com.jonathanlee.popcorn.ui.main.tv.TvFragment
-import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.applyOnPageSelected
 
 class MainActivity : AppCompatActivity() {

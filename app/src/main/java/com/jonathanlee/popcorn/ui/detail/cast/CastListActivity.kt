@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
+import com.jonathanlee.bindingdelegate.ext.viewBinding
 import com.jonathanlee.popcorn.data.model.CastCredit
 import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.databinding.ActivityCastListBinding
@@ -13,7 +14,6 @@ import com.jonathanlee.popcorn.ui.base.BaseActivity
 import com.jonathanlee.popcorn.ui.common.GridInternalSpaceItemDecoration
 import com.jonathanlee.popcorn.util.OptionItemClickListener
 import com.jonathanlee.popcorn.util.TAG
-import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.dp
 
 class CastListActivity : BaseActivity() {
