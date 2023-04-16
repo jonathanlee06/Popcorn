@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.jonathanlee.bindingdelegate.ext.viewBinding
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Tv
 import com.jonathanlee.popcorn.data.model.TvItem
@@ -16,15 +17,13 @@ import com.jonathanlee.popcorn.ui.common.option.Options
 import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.DetailUtil
-import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.navigateTo
 import com.jonathanlee.popcorn.util.isNetworkConnected
 
-class TvFragment : BaseFragment(), TvContract.View {
-    override val layoutResId: Int = R.layout.fragment_tv
-    override val binding: FragmentTvBinding by viewBinding()
+class TvFragment : BaseFragment(R.layout.fragment_tv), TvContract.View {
     override lateinit var presenter: TvContract.Presenter
     private lateinit var tvShowListAdapter: TvAdapter
+    private val binding by viewBinding(FragmentTvBinding::bind)
     private var listLayoutManager: GridLayoutManager? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

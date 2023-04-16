@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
+import com.jonathanlee.bindingdelegate.ext.viewBinding
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.CastCredit
 import com.jonathanlee.popcorn.data.model.CastItem
@@ -28,7 +29,6 @@ import com.jonathanlee.popcorn.ui.common.HorizontalSpaceItemDecoration
 import com.jonathanlee.popcorn.ui.detail.cast.CastDetailBottomSheetDialogFragment
 import com.jonathanlee.popcorn.ui.detail.cast.CastListActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
-import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.dp
 import com.jonathanlee.popcorn.util.extension.navigateTo
 

@@ -1,37 +1,24 @@
 package com.jonathanlee.popcorn.ui.base
 
 import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.viewbinding.ViewBinding
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.ui.common.DialogHelper
 
-abstract class BaseFragment : Fragment() {
-    @get:LayoutRes
-    protected abstract val layoutResId: Int
-    protected abstract val binding: ViewBinding
+abstract class BaseFragment(@LayoutRes layoutResId: Int) : Fragment(layoutResId) {
 
     protected val mFragmentManager: FragmentManager
         get() = childFragmentManager
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = inflater.inflate(layoutResId, container, false)
-
     protected fun showNetworkErrorDialog(
         context: Context,
         positiveButtonCallback: (() -> Unit)? = null,
-        negativeButtonCallback: (() -> Unit)? = null
+        negativeButtonCallback: (() -> Unit)? = null,
     ) {
         DialogHelper.showNetworkErrorDialog(
             context = context,

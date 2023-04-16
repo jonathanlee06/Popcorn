@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.jonathanlee.bindingdelegate.ext.viewBinding
 import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.data.model.Movie
 import com.jonathanlee.popcorn.data.model.MovieItem
@@ -17,16 +18,14 @@ import com.jonathanlee.popcorn.ui.common.option.Options
 import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.DetailUtil
-import com.jonathanlee.popcorn.util.binding.viewBinding
 import com.jonathanlee.popcorn.util.extension.navigateTo
 import com.jonathanlee.popcorn.util.isNetworkConnected
 
-class MovieFragment : BaseFragment(), MovieContract.View {
+class MovieFragment : BaseFragment(R.layout.fragment_movie), MovieContract.View {
 
-    override val layoutResId: Int = R.layout.fragment_movie
-    override val binding: FragmentMovieBinding by viewBinding()
     override lateinit var presenter: MovieContract.Presenter
     private lateinit var movieListAdapter: MovieAdapter
+    private val binding by viewBinding(FragmentMovieBinding::bind)
     private var page: Int = 1
     private var listLayoutManager: GridLayoutManager? = null
 
