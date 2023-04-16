@@ -1,5 +1,5 @@
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -26,7 +26,10 @@ android {
         }
     }
 
-    buildFeatures.viewBinding = true
+    buildFeatures {
+        viewBinding = true
+        compose = true
+    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -46,6 +49,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.2"
     }
     defaultConfig {
         applicationId = AndroidConfig.applicationId
@@ -76,12 +82,21 @@ dependencies {
     implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.lifecycleRuntimeKtx)
     implementation(Libraries.lifecycleJava8)
+    implementation(Libraries.lifecycleViewModelCompose)
 
     // androidx
     implementation(Libraries.activityKtx)
     implementation(Libraries.fragmentKtx)
     implementation(Libraries.swipeRefreshLayout)
     implementation(Libraries.palette)
+
+    // Jetpack Compose
+    implementation(platform(Libraries.composeBom))
+    implementation(Libraries.composeMaterial3)
+    implementation(Libraries.composeUiToolingPreview)
+    debugImplementation(Libraries.composeUiTooling)
+    implementation(Libraries.composeActivity)
+    implementation(Libraries.composeLiveData)
 
     // coroutines
     implementation(Libraries.coroutinesCore)
@@ -102,9 +117,13 @@ dependencies {
 
     // Coil - image loader
     implementation(Libraries.coil)
+    implementation(Libraries.coilCompose)
 
     // Material Dialog
     implementation(Libraries.materialDialog)
+
+    // View Binding Delegate
+    implementation(Libraries.bindingDelegate)
 
     // unit test
     testImplementation(Libraries.junit)
@@ -115,6 +134,7 @@ dependencies {
     androidTestImplementation(Libraries.espresso)
     androidTestImplementation(Libraries.androidxTest)
     androidTestImplementation(Libraries.androidxTestRules)
+    androidTestImplementation(platform(Libraries.composeBom))
 }
 
 fun getProperty(fileName: String, propName: String): Any? {
