@@ -1,30 +1,33 @@
 object AndroidConfig {
     const val applicationId = "com.jonathanlee.popcorn"
-    const val compileSdk = 31
+    const val compileSdk = 33
     const val minSdk = 23
-    const val targetSdk = 31
+    const val targetSdk = 33
     const val versionCode = 2
     const val versionName = "1.1"
 }
 
 object Versions {
-    const val gradle = "7.1.2"
+    const val gradle = "7.4.2"
 
     // Architectural Components
-    const val activityKtx = "1.4.0"
-    const val material = "1.4.0"
-    const val lifecycle = "2.2.0"
+    const val activityKtx = "1.7.0"
+    const val fragmentKtx = "1.5.6"
+    const val material = "1.8.0"
+    const val lifecycle = "2.6.1"
 
     // Coil - Image Loader
-    const val coil = "2.1.0"
+    const val coil = "2.3.0"
+
+    const val composeBom = "2023.03.00"
 
     // Google
     const val firebase = "2.7.1"
     const val googleServices = "4.3.10"
 
     // Kotlin
-    const val kotlin = "1.5.21"
-    const val coroutines = "1.5.1"
+    const val kotlin = "1.8.10"
+    const val coroutines = "1.6.4"
 
     // Material Dialog
     const val materialDialog = "3.3.0"
@@ -49,22 +52,35 @@ object Libraries {
     const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
 
     // Android
-    const val appCompat = "androidx.appcompat:appcompat:1.4.1"
+    const val appCompat = "androidx.appcompat:appcompat:1.6.1"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.3"
-    const val coreKtx = "androidx.core:core-ktx:1.7.0"
+    const val coreKtx = "androidx.core:core-ktx:1.10.0"
     const val palette = "androidx.palette:palette-ktx:1.0.0"
     const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // Architectural Components
     const val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtx}"
-    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.activityKtx}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
     const val material = "com.google.android.material:material:${Versions.material}"
-    const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
     const val lifecycleJava8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
     const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
+    const val lifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
 
     // Coil - Image Loader
     const val coil = "io.coil-kt:coil:${Versions.coil}"
+    const val coilCompose = "io.coil-kt:coil-compose:${Versions.coil}"
+
+    // Jetpack Compose
+    const val composeActivity = "androidx.activity:activity-compose:1.6.1"
+    const val composeBom = "androidx.compose:compose-bom:${Versions.composeBom}"
+    const val composeLiveData = "androidx.compose.runtime:runtime-livedata"
+    const val composeMaterial3 = "androidx.compose.material3:material3"
+    const val composeMaterial2 = "androidx.compose.material:material"
+    const val composeUiTooling = "androidx.compose.ui:ui-tooling"
+    const val composeUiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
+    const val composeUiTest = "androidx.compose.ui:ui-test-junit4"
+    const val composeUiTestManifest = "androidx.compose.ui:ui-test-manifest"
 
     // Coroutines
     const val coroutinesAndroid =
@@ -96,6 +112,9 @@ object Libraries {
     // Scrolling indicator
     const val scrollingIndicator =
         "ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator:1.0.6"
+
+    // View Binding Delegate
+    const val bindingDelegate = "com.github.jonathanlee06:BindingDelegate:1.0.3"
 
     // Unit Test
     const val junit = "junit:junit:${Versions.junit}"
