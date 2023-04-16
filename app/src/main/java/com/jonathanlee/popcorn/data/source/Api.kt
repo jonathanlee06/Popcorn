@@ -3,12 +3,14 @@ package com.jonathanlee.popcorn.data.source
 import com.jonathanlee.popcorn.data.source.task.CastTask
 import com.jonathanlee.popcorn.data.source.task.DetailTask
 import com.jonathanlee.popcorn.data.source.task.DiscoverTask
+import com.jonathanlee.popcorn.data.source.task.SearchTask
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Api {
     private const val BASE_URL = "https://api.themoviedb.org/"
+    private const val BASE_SEARCH_PATH = "https://image.tmdb.org/t/p/w185"
     private const val BASE_POSTER_PATH = "https://image.tmdb.org/t/p/w500"
     private const val BASE_BACKDROP_PATH = "https://image.tmdb.org/t/p/w780"
     private const val BASE_BACKDROP_SMALL_PATH = "https://image.tmdb.org/t/p/w300"
@@ -23,6 +25,10 @@ object Api {
 
     fun getBackdropPath(backdropPath: String?): String {
         return BASE_BACKDROP_PATH + backdropPath
+    }
+
+    fun getSearchPath(searchPath: String?): String {
+        return BASE_SEARCH_PATH.plus(searchPath)
     }
 
     fun getBackdropSmallPath(backdropPath: String?): String {
@@ -74,6 +80,11 @@ object Api {
     fun provideCastTask(): CastTask {
         val retrofit = provideRetrofit()
         return retrofit.create(CastTask::class.java)
+    }
+
+    fun provideSearchTask(): SearchTask {
+        val retrofit = provideRetrofit()
+        return retrofit.create(SearchTask::class.java)
     }
 }
 

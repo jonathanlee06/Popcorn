@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jonathanlee.bindingdelegate.ext.viewBinding
 import com.jonathanlee.popcorn.data.model.CastCredit
@@ -12,9 +11,11 @@ import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.databinding.ActivityCastListBinding
 import com.jonathanlee.popcorn.ui.base.BaseActivity
 import com.jonathanlee.popcorn.ui.common.GridInternalSpaceItemDecoration
+import com.jonathanlee.popcorn.ui.detail.DetailActivity
+import com.jonathanlee.popcorn.util.DetailUtil
 import com.jonathanlee.popcorn.util.OptionItemClickListener
-import com.jonathanlee.popcorn.util.TAG
 import com.jonathanlee.popcorn.util.extension.dp
+import com.jonathanlee.popcorn.util.extension.navigateTo
 
 class CastListActivity : BaseActivity() {
 
@@ -52,8 +53,6 @@ class CastListActivity : BaseActivity() {
     }
 
     private fun initView() {
-        Log.d(TAG, "initView: id=${castList.getOrNull(0)?.cast?.id}")
-        Log.d(TAG, "initView: id=${castList.getOrNull(0)?.cast?.castId}")
         binding.rvData.apply {
             layoutManager = GridLayoutManager(this@CastListActivity, 2)
             adapter = CastListAdapter().also {
@@ -65,7 +64,13 @@ class CastListActivity : BaseActivity() {
                             data = castList.getOrNull(position)?.cast,
                             listener = object : CastDetailBottomSheetDialogFragment.Listener {
                                 override fun onCreditClick(credit: CastCredit) {
-                                    finish()
+                                    navigateTo(
+                                        DetailActivity.getStartIntent(
+                                            this@CastListActivity,
+                                            DetailUtil.parseToContent(credit),
+                                            if (credit.mediaType == "movie") DetailActivity.ENTRY_FROM_MOVIE else DetailActivity.ENTRY_FROM_TV
+                                        )
+                                    )
                                 }
 
                             }

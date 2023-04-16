@@ -71,6 +71,13 @@ class VerticalSpaceItemDecoration(private val verticalSpaceHeight: Int) :
         outRect: Rect, view: View, parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        outRect.bottom = verticalSpaceHeight
+        val itemPosition =
+            (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
+        outRect.bottom = verticalSpaceHeight.div(2)
+        outRect.top = if (itemPosition == 0) {
+            verticalSpaceHeight
+        } else {
+            verticalSpaceHeight.div(2)
+        }
     }
 }

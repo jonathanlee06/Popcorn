@@ -10,7 +10,9 @@ import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.databinding.ActivityMainBinding
 import com.jonathanlee.popcorn.ui.main.movie.MovieFragment
 import com.jonathanlee.popcorn.ui.main.tv.TvFragment
+import com.jonathanlee.popcorn.ui.search.SearchActivity
 import com.jonathanlee.popcorn.util.extension.applyOnPageSelected
+import com.jonathanlee.popcorn.util.extension.navigateTo
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +42,9 @@ class MainActivity : AppCompatActivity() {
         }.attach()
         binding.titleBar.apply {
             visibility = View.VISIBLE
+        }
+        binding.mainToolbar.ivSearch.setOnClickListener {
+            navigateTo(SearchActivity.getStartIntent(this))
         }
     }
 }

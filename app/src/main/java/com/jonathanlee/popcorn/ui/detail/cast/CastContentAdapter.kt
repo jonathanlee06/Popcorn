@@ -25,6 +25,9 @@ class CastContentAdapter : RecyclerView.Adapter<CastContentAdapter.ContentViewHo
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
         val binding = holder.binding
         val data = creditList[position]
+        binding.root.setOnClickListener {
+            onItemClickListener?.onItemClicked(position, data)
+        }
         binding.ivContentPhoto.load(Api.getPosterPath(data.posterPath)) {
             crossfade(true)
         }

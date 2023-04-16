@@ -29,6 +29,7 @@ import com.jonathanlee.popcorn.ui.common.HorizontalSpaceItemDecoration
 import com.jonathanlee.popcorn.ui.detail.cast.CastDetailBottomSheetDialogFragment
 import com.jonathanlee.popcorn.ui.detail.cast.CastListActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
+import com.jonathanlee.popcorn.util.DetailUtil
 import com.jonathanlee.popcorn.util.extension.dp
 import com.jonathanlee.popcorn.util.extension.navigateTo
 
@@ -54,7 +55,6 @@ class DetailActivity : BaseActivity(), DetailContract.View {
             if (context !is Activity) {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.putExtra(EXTRA_DETAILS, content)
             intent.putExtra(EXTRA_ENTRY_POINT, entry)
             return intent
@@ -103,7 +103,13 @@ class DetailActivity : BaseActivity(), DetailContract.View {
                     data = castList.getOrNull(position)?.cast,
                     listener = object : CastDetailBottomSheetDialogFragment.Listener {
                         override fun onCreditClick(credit: CastCredit) {
-                            finish()
+                            navigateTo(
+                                getStartIntent(
+                                    this@DetailActivity,
+                                    DetailUtil.parseToContent(credit),
+                                    if (credit.mediaType == "movie") ENTRY_FROM_MOVIE else ENTRY_FROM_TV
+                                )
+                            )
                         }
 
                     }

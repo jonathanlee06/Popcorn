@@ -179,7 +179,6 @@ class CastDetailBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
             }
         }
         viewModel.castCredit.observe(this) {
-            Log.d(TAG, "initView: name=${it[0].title}")
             creditAdapter.updateListData(it)
             creditAdapter.setOnItemClickListener(object : AdapterItemClickListener<CastCredit> {
                 override fun onItemClicked(position: Int, model: CastCredit) {
