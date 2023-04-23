@@ -9,6 +9,7 @@ buildscript {
         classpath(Libraries.firebase)
         classpath(Libraries.gradle)
         classpath(Libraries.kotlinGradlePlugin)
+        classpath(Libraries.hiltGradlePlugin)
     }
 }
 
