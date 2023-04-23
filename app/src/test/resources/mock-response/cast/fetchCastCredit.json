@@ -1,0 +1,78 @@
+{
+  "cast": [
+    {
+      "adult": false,
+      "backdrop_path": "/tIG8FwHRiHLOlWJdizp2oxdkSL2.jpg",
+      "genre_ids": [
+        14,
+        28,
+        27
+      ],
+      "id": 561,
+      "original_language": "en",
+      "original_title": "Constantine",
+      "overview": "John Constantine has literally been to Hell and back. When he teams up with a policewoman to solve the mysterious suicide of her twin sister, their investigation takes them through the world of demons and angels that exists beneath the landscape of contemporary Los Angeles.",
+      "popularity": 88.512,
+      "poster_path": "/vPYgvd2MwHlxTamAOjwVQp4qs1W.jpg",
+      "release_date": "2005-02-08",
+      "title": "Constantine",
+      "video": false,
+      "vote_average": 7.04,
+      "vote_count": 6242,
+      "character": "John Constantine",
+      "credit_id": "52fe4252c3a36847f8015399",
+      "order": 0,
+      "media_type": "movie"
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zsotFMYDF6cBcXc7aEEf2ygu6UG.jpg",
+      "genre_ids": [
+        28,
+        80,
+        18,
+        53
+      ],
+      "id": 1266,
+      "original_language": "en",
+      "original_title": "Street Kings",
+      "overview": "Tom Ludlow is a disillusioned L.A. Police Officer, rarely playing by the rules and haunted by the death of his wife. When evidence implicates him in the execution of a fellow officer, he is forced to go up against the cop culture he's been a part of his entire career, ultimately leading him to question the loyalties of everyone around him.",
+      "popularity": 17.559,
+      "poster_path": "/csXyZ1BsDBlH0PXkOFWxggEf9WF.jpg",
+      "release_date": "2008-04-10",
+      "title": "Street Kings",
+      "video": false,
+      "vote_average": 6.626,
+      "vote_count": 1252,
+      "character": "Detective Tom Ludlow",
+      "credit_id": "52fe42ebc3a36847f802cf67",
+      "order": 0,
+      "media_type": "movie"
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/lywmuPU5Hr1Mnpb9UGeDbILmkTx.jpg",
+      "genre_ids": [
+        28,
+        12,
+        80
+      ],
+      "id": 1637,
+      "original_language": "en",
+      "original_title": "Speed",
+      "overview": "Los Angeles SWAT cop Jack Traven is up against bomb expert Howard Payne, who's after major ransom money. First it's a rigged elevator in a very tall building. Then it's a rigged bus--if it slows, it will blow, bad enough any day, but a nightmare in LA traffic. And that's still not the end.",
+      "popularity": 38.593,
+      "poster_path": "/xKxYPmN4ZVHbNbmgm1ya2ivBn2P.jpg",
+      "release_date": "1994-06-09",
+      "title": "Speed",
+      "video": false,
+      "vote_average": 7.111,
+      "vote_count": 5359,
+      "character": "Jack Traven",
+      "credit_id": "52fe4307c3a36847f8034f55",
+      "order": 0,
+      "media_type": "movie"
+    }
+  ],
+  "id": 6384
+}
