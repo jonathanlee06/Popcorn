@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("dagger.hilt.android.plugin")
     kotlin("android")
     kotlin("kapt")
     kotlin("plugin.parcelize")
@@ -71,6 +72,10 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
     implementation(Libraries.coreKtx)
     implementation(Libraries.appCompat)
@@ -108,6 +113,10 @@ dependencies {
     implementation(platform(Libraries.firebaseBom))
     implementation(Libraries.firebaseAnalytics)
     implementation(Libraries.firebaseCrashlytics)
+
+    // Hilt
+    implementation(Libraries.hiltAndroid)
+    kapt(Libraries.hiltCompiler)
 
     // network
     implementation(Libraries.okhttp)

@@ -25,6 +25,9 @@ object Versions {
     const val firebase = "2.7.1"
     const val googleServices = "4.3.10"
 
+    // Hilt
+    const val hilt = "2.44"
+
     // Kotlin
     const val kotlin = "1.8.10"
     const val coroutines = "1.6.4"
@@ -96,6 +99,11 @@ object Libraries {
     const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-ktx"
     const val firebaseBom = "com.google.firebase:firebase-bom:28.4.1"
     const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
+
+    // Hilt
+    const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.hilt}"
+    const val hiltCompiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+    const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
 
     // Kotlin
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
