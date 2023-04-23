@@ -18,7 +18,7 @@ import com.jonathanlee.popcorn.ui.detail.DetailActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.DetailUtil
 import com.jonathanlee.popcorn.util.extension.navigateTo
-import com.jonathanlee.popcorn.util.isNetworkConnected
+import com.jonathanlee.popcorn.util.network.isNetworkConnected
 
 class TvFragment : BaseFragment(R.layout.fragment_tv), TvContract.View {
     override lateinit var presenter: TvContract.Presenter

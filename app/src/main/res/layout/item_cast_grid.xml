@@ -14,35 +14,45 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/iv_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:padding="25dp"
                 android:src="@drawable/logo_white"
-                app:tint="@color/background600" />
+                app:tint="@color/background600"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/iv_cast_photo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/test"
-                tools:visibility="gone" />
+                tools:src="@drawable/test"
+                tools:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:paddingBottom="6dp"
                 android:paddingTop="6dp"
                 android:orientation="vertical"
-                android:background="@drawable/bg_gradient_black">
+                android:background="@drawable/bg_gradient_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -75,7 +85,7 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 

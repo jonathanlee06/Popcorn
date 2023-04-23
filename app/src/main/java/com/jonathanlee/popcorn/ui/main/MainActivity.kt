@@ -3,7 +3,9 @@ package com.jonathanlee.popcorn.ui.main
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jonathanlee.bindingdelegate.ext.viewBinding
 import com.jonathanlee.popcorn.R
@@ -13,15 +15,22 @@ import com.jonathanlee.popcorn.ui.main.tv.TvFragment
 import com.jonathanlee.popcorn.ui.search.SearchActivity
 import com.jonathanlee.popcorn.util.extension.applyOnPageSelected
 import com.jonathanlee.popcorn.util.extension.navigateTo
+import com.jonathanlee.popcorn.util.network.ConnectivityObserver
+import com.jonathanlee.popcorn.util.network.NetworkConnectivityObserver
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by viewBinding()
+    private lateinit var connectivityObserver: ConnectivityObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        connectivityObserver = NetworkConnectivityObserver(this)
         setContentView(binding.root)
         initView()
+        observe()
     }
 
     private fun initView() {
@@ -45,6 +54,15 @@ class MainActivity : AppCompatActivity() {
         }
         binding.mainToolbar.ivSearch.setOnClickListener {
             navigateTo(SearchActivity.getStartIntent(this))
+        }
+    }
+
+    private fun observe() {
+        lifecycleScope.launch {
+            connectivityObserver.observe().collectLatest {
+                val networkAvailable = it == ConnectivityObserver.Status.Available
+                binding.mainToolbar.ivSearch.isVisible = networkAvailable
+            }
         }
     }
 }

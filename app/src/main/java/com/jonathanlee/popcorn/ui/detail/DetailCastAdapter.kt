@@ -10,6 +10,7 @@ import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.data.source.Api
 import com.jonathanlee.popcorn.databinding.ItemCastBinding
 import com.jonathanlee.popcorn.databinding.ItemCastMoreBinding
+import com.jonathanlee.popcorn.util.extension.dp
 
 class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -30,6 +31,10 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val binding = ItemCastBinding.inflate(
                     inflater, parent, false
                 )
+                val layoutParam = binding.cvCast.layoutParams as ViewGroup.LayoutParams
+                layoutParam.height = 200.dp
+                layoutParam.width = 150.dp
+                binding.cvCast.layoutParams = layoutParam
                 CastViewHolder(binding)
             }
             TYPE_MORE -> {
