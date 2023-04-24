@@ -1,4 +1,4 @@
-package com.jonathanlee.popcorn.ui.common
+package com.jonathanlee.popcorn.ui.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

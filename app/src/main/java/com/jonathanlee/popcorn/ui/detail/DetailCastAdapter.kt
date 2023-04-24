@@ -4,13 +4,12 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.jonathanlee.popcorn.data.model.CastItem
-import com.jonathanlee.popcorn.data.source.Api
-import com.jonathanlee.popcorn.databinding.ItemCastBinding
 import com.jonathanlee.popcorn.databinding.ItemCastMoreBinding
-import com.jonathanlee.popcorn.util.extension.dp
+import com.jonathanlee.popcorn.ui.detail.cast.list.DetailCastItem
+import com.jonathanlee.popcorn.ui.theme.PopcornTheme
 
 class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -28,14 +27,7 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         context = parent.context
         return when (viewType) {
             TYPE_ITEM -> {
-                val binding = ItemCastBinding.inflate(
-                    inflater, parent, false
-                )
-                val layoutParam = binding.cvCast.layoutParams as ViewGroup.LayoutParams
-                layoutParam.height = 200.dp
-                layoutParam.width = 150.dp
-                binding.cvCast.layoutParams = layoutParam
-                CastViewHolder(binding)
+                CastViewHolder(ComposeView(parent.context))
             }
             TYPE_MORE -> {
                 val binding = ItemCastMoreBinding.inflate(
@@ -50,17 +42,16 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is CastViewHolder -> {
-                val binding = holder.binding
+                val view = holder.composeView
                 val castItem = castList[position] as CastItem.Item
                 val data = castItem.cast
-                binding.itemCastName.text = data.name
-                binding.itemCharacterName.text = data.character
-                val imagePath = Api.getPosterPath(data.profilePath)
-                binding.ivCastPhoto.load(imagePath) {
-                    crossfade(true)
-                }
-                binding.root.setOnClickListener {
-                    onClickListener?.onCastClick(position)
+                view.setContent {
+                    PopcornTheme {
+                        DetailCastItem(
+                            cast = data,
+                            onClick = { onClickListener?.onCastClick(position) }
+                        )
+                    }
                 }
             }
             is MoreViewHolder -> {
@@ -102,7 +93,7 @@ class DetailCastAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class CastViewHolder(val binding: ItemCastBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class CastViewHolder(val composeView: ComposeView) : RecyclerView.ViewHolder(composeView)
 
     inner class MoreViewHolder(val binding: ItemCastMoreBinding) :
         RecyclerView.ViewHolder(binding.root)
