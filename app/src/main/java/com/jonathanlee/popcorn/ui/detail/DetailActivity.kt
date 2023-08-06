@@ -31,6 +31,7 @@ import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.DetailUtil
 import com.jonathanlee.popcorn.util.Navigator
 import com.jonathanlee.popcorn.util.extension.dp
+import com.jonathanlee.popcorn.util.extension.getParcelable
 import com.jonathanlee.popcorn.util.extension.navigateTo
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -194,7 +195,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
 
     private fun initData() {
-        val localDetails = intent.getParcelableExtra(EXTRA_DETAILS) as? Content
+        val localDetails = intent.getParcelable(EXTRA_DETAILS, Content::class.java)
         if (localDetails == null) {
             finish()
             return
@@ -207,6 +208,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
         presenter = DetailPresenter(view = this, scope = lifecycleScope)
     }
 
+    @Suppress("DEPRECATION")
     private fun initView() {
         window.apply {
             clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)

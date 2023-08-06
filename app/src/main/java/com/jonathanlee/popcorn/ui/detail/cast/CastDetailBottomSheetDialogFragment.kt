@@ -30,7 +30,9 @@ import com.jonathanlee.popcorn.ui.base.BaseBottomSheetDialogFragment
 import com.jonathanlee.popcorn.ui.common.HorizontalSpaceItemDecoration
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.extension.dp
+import com.jonathanlee.popcorn.util.extension.getParcelableValue
 import com.jonathanlee.popcorn.util.extension.navigateTo
+import com.google.android.material.R as materialR
 
 class CastDetailBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     private lateinit var cast: Cast
@@ -91,7 +93,7 @@ class CastDetailBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
             if (dialog == null) {
                 return@setOnShowListener
             }
-            val bottomSheet = dialog!!.findViewById<FrameLayout>(R.id.design_bottom_sheet)
+            val bottomSheet = dialog!!.findViewById<FrameLayout>(materialR.id.design_bottom_sheet)
             val behavior = BottomSheetBehavior.from(bottomSheet)
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.skipCollapsed = true
@@ -104,7 +106,7 @@ class CastDetailBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     }
 
     private fun initExtra() {
-        cast = arguments?.getParcelable<Cast>(EXTRA_DATA) as Cast
+        cast = arguments?.getParcelableValue<Cast>(EXTRA_DATA) as Cast
         viewModel.getCastInfo(cast.id)
     }
 
