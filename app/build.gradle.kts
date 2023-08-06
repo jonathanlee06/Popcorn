@@ -3,15 +3,16 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("dagger.hilt.android.plugin")
     kotlin("android")
-    kotlin("kapt")
     kotlin("plugin.parcelize")
+    kotlin("kapt")
 }
 
 android {
+    namespace = AndroidConfig.namespace
+
     signingConfigs {
         getByName("debug") {
             storeFile = file("../keystore/Popcorn_keystore.jks")
@@ -30,6 +31,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig = true
     }
     buildTypes {
         getByName("debug") {
@@ -48,8 +50,8 @@ android {
     }
     compileSdk = AndroidConfig.compileSdk
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.2"
@@ -68,7 +70,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 

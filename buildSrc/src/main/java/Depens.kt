@@ -2,13 +2,14 @@ object AndroidConfig {
     const val applicationId = "com.jonathanlee.popcorn"
     const val compileSdk = 33
     const val minSdk = 23
+    const val namespace = "com.jonathanlee.popcorn"
     const val targetSdk = 33
     const val versionCode = 3
     const val versionName = "1.2"
 }
 
 object Versions {
-    const val gradle = "7.4.2"
+    const val gradle = "8.1.0"
 
     // Architectural Components
     const val activityKtx = "1.7.0"

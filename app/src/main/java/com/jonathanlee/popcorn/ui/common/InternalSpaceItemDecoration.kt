@@ -10,6 +10,7 @@ class GridInternalSpaceItemDecoration(
 ) : RecyclerView.ItemDecoration() {
     private var needLeftSpacing = false
 
+    @Suppress("DEPRECATION")
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -67,6 +68,7 @@ class HorizontalSpaceItemDecoration(private val horizontalSpaceHeight: Int) :
 class VerticalSpaceItemDecoration(private val verticalSpaceHeight: Int) :
     RecyclerView.ItemDecoration() {
 
+    @Suppress("DEPRECATION")
     override fun getItemOffsets(
         outRect: Rect, view: View, parent: RecyclerView,
         state: RecyclerView.State

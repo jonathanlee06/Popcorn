@@ -14,6 +14,8 @@ import com.jonathanlee.popcorn.R
 import com.jonathanlee.popcorn.databinding.FragmentOptionBinding
 import com.jonathanlee.popcorn.ui.base.BaseBottomSheetDialogFragment
 import com.jonathanlee.popcorn.util.OptionItemClickListener
+import com.jonathanlee.popcorn.util.extension.getSerializableValue
+import com.google.android.material.R as materialR
 
 class OptionMenuDialogFragment : BaseBottomSheetDialogFragment(), OptionItemClickListener {
 
@@ -71,7 +73,7 @@ class OptionMenuDialogFragment : BaseBottomSheetDialogFragment(), OptionItemClic
             if (dialog == null) {
                 return@setOnShowListener
             }
-            val bottomSheet = dialog!!.findViewById<FrameLayout>(R.id.design_bottom_sheet)
+            val bottomSheet = dialog!!.findViewById<FrameLayout>(materialR.id.design_bottom_sheet)
             val behavior = BottomSheetBehavior.from(bottomSheet)
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
@@ -93,7 +95,7 @@ class OptionMenuDialogFragment : BaseBottomSheetDialogFragment(), OptionItemClic
 
     @Suppress("UNCHECKED_CAST")
     private fun initExtra() {
-        data = arguments?.getSerializable(EXTRA_DATA) as ArrayList<Options>
+        data = arguments?.getSerializableValue<ArrayList<Options>>(EXTRA_DATA) as ArrayList<Options>
     }
 
     interface OptionMenuListener {
