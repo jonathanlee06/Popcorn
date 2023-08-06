@@ -27,12 +27,15 @@ import com.jonathanlee.popcorn.databinding.ActivityDetailBinding
 import com.jonathanlee.popcorn.ui.base.BaseActivity
 import com.jonathanlee.popcorn.ui.common.HorizontalSpaceItemDecoration
 import com.jonathanlee.popcorn.ui.detail.cast.CastDetailBottomSheetDialogFragment
-import com.jonathanlee.popcorn.ui.detail.cast.CastListActivity
 import com.jonathanlee.popcorn.util.AdapterItemClickListener
 import com.jonathanlee.popcorn.util.DetailUtil
+import com.jonathanlee.popcorn.util.Navigator
 import com.jonathanlee.popcorn.util.extension.dp
 import com.jonathanlee.popcorn.util.extension.navigateTo
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailActivity : BaseActivity(), DetailContract.View {
 
     private val binding: ActivityDetailBinding by viewBinding()
@@ -43,6 +46,9 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     override lateinit var presenter: DetailContract.Presenter
     private lateinit var castAdapter: DetailCastAdapter
     private lateinit var videoAdapter: DetailVideoAdapter
+
+    @Inject
+    lateinit var navigator: Navigator
 
     companion object {
         const val ENTRY_FROM_MOVIE = 0
@@ -183,7 +189,8 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
 
     private fun clickSeeMore() {
-        navigateTo(CastListActivity.getStartIntent(this, castList))
+        navigator.navigateToCastListPage(this, castList)
+        //navigateTo(CastListActivity.getStartIntent(this, castList))
     }
 
     private fun initData() {
@@ -266,10 +273,12 @@ class DetailActivity : BaseActivity(), DetailContract.View {
                 DrawableCompat.setTint(bar, ContextCompat.getColor(this, R.color.color_red))
                 //bar.setTint(ContextCompat.getColor(this, R.color.color_red))
             }
+
             popularity in 40..69 -> {
                 DrawableCompat.setTint(bar, ContextCompat.getColor(this, R.color.color_yellow))
                 //bar.setTint(ContextCompat.getColor(this, R.color.color_yellow))
             }
+
             popularity >= 70 -> {
                 DrawableCompat.setTint(bar, ContextCompat.getColor(this, R.color.color_green))
                 //bar.setTint(ContextCompat.getColor(this, R.color.color_green))

@@ -1,5 +1,7 @@
 package com.jonathanlee.popcorn.data.compose
 
+import com.jonathanlee.popcorn.data.model.Cast
+import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.data.model.network.SearchModel
 
 val searchModel = SearchModel(
@@ -22,3 +24,40 @@ val searchModel = SearchModel(
 )
 
 val searchList = listOf(searchModel, searchModel, searchModel)
+
+val cast = Cast(
+    adult = false,
+    gender = 2,
+    id = 345678,
+    knownForDepartment = "department",
+    name = "Cast Name",
+    originalName = "Cast Original Name",
+    popularity = 99.99,
+    profilePath = "/4D0PpNI0kmP58hgrwGC3wCjxhnm.jpg",
+    castId = 2222,
+    character = "Character",
+    creditId = "creditId",
+    order = 2
+)
+
+private val cast_emptyProfile = Cast(
+    adult = false,
+    gender = 2,
+    id = 345678,
+    knownForDepartment = "department",
+    name = "Cast Name",
+    originalName = "Cast Original Name",
+    popularity = 99.99,
+    profilePath = null,
+    castId = 2222,
+    character = "Character",
+    creditId = "creditId",
+    order = 2
+)
+
+val castList = listOf(
+    CastItem.Item(cast),
+    CastItem.Item(cast_emptyProfile),
+    CastItem.Item(cast),
+    CastItem.Item(cast_emptyProfile)
+)

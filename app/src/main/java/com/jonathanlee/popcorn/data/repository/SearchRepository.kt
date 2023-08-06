@@ -1,5 +1,6 @@
 package com.jonathanlee.popcorn.data.repository
 
+import com.jonathanlee.popcorn.data.model.network.SearchModel
 import com.jonathanlee.popcorn.data.model.network.SearchResponse
 import com.jonathanlee.popcorn.data.repository.CastRepository.Companion.getInstance
 import com.jonathanlee.popcorn.data.source.ApiResultState
@@ -36,12 +37,25 @@ class SearchRepository private constructor(
             emit(ApiResultState.Loading)
             val response = remoteDataSource.search(query, page)
             if (response.isSuccessful) {
-                emit(ApiResultState.Success(response.body()))
+                val result = response.body()
+                emit(ApiResultState.Success(if (result != null) filterSearch(result) else result))
             } else {
                 val errorMsg = response.errorBody()?.string()
                 response.errorBody()?.close()
                 emit(ApiResultState.Failure(errorMsg))
             }
         }.flowOn(dispatcher)
+    }
+
+    private fun filterSearch(response: SearchResponse): SearchResponse {
+        fun hasNoImage(search: SearchModel): Boolean {
+            return search.posterPath.isNullOrEmpty() && search.profilePath.isNullOrEmpty()
+        }
+        return SearchResponse(
+            page = response.page,
+            results = response.results.filter { !hasNoImage(it) },
+            totalPages = response.totalPages,
+            totalResults = response.totalResults
+        )
     }
 }

@@ -82,6 +82,7 @@ dependencies {
     implementation(Libraries.material)
     implementation(Libraries.constraintLayout)
     implementation(Libraries.scrollingIndicator)
+    implementation(Libraries.recyclerView)
 
     // architectural components
     implementation(Libraries.lifecycleExtensions)

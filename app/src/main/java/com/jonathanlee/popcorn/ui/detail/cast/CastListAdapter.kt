@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jonathanlee.popcorn.data.model.CastItem
 import com.jonathanlee.popcorn.data.source.Api
-import com.jonathanlee.popcorn.databinding.ItemCastGridBinding
+import com.jonathanlee.popcorn.databinding.ItemCastBinding
 import com.jonathanlee.popcorn.util.OptionItemClickListener
 
 class CastListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -16,7 +16,7 @@ class CastListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemCastGridBinding.inflate(inflater, parent, false)
+        val binding = ItemCastBinding.inflate(inflater, parent, false)
         return CastViewHolder(binding)
     }
 
@@ -55,6 +55,6 @@ class CastListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class CastViewHolder(val binding: ItemCastGridBinding) :
+    inner class CastViewHolder(val binding: ItemCastBinding) :
         RecyclerView.ViewHolder(binding.root)
 }

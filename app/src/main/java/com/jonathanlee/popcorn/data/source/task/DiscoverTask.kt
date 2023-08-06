@@ -32,6 +32,6 @@ interface DiscoverTask {
      *
      *  @return [TvShowListResponse] response
      */
-    @GET("/3/discover/tv?language=en-US&sort_by=popularity.desc")
+    @GET("/3/discover/tv?sort_by=popularity.desc")
     suspend fun fetchTvShow(@Query("page") page: Int): Response<TvShowListResponse>
 }

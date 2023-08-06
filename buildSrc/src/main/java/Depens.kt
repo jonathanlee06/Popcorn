@@ -15,6 +15,7 @@ object Versions {
     const val fragmentKtx = "1.5.6"
     const val material = "1.8.0"
     const val lifecycle = "2.6.1"
+    const val recyclerView = "1.3.0"
 
     // Coil - Image Loader
     const val coil = "2.3.0"
@@ -69,6 +70,7 @@ object Libraries {
     const val lifecycleJava8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
     const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val lifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+    const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
 
     // Coil - Image Loader
     const val coil = "io.coil-kt:coil:${Versions.coil}"

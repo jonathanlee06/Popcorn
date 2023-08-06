@@ -96,6 +96,8 @@ class CastDetailBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.skipCollapsed = true
             behavior.isDraggable = false
+            behavior.peekHeight = bottomSheet.height
+            bottomSheet.parent.parent.requestLayout()
         }
         initExtra()
         initView()

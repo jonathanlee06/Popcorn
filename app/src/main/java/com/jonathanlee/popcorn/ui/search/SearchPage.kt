@@ -36,10 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jonathanlee.popcorn.data.model.network.SearchModel
-import com.jonathanlee.popcorn.ui.common.SearchList
 import com.jonathanlee.popcorn.ui.theme.BrandContainer
 import com.jonathanlee.popcorn.ui.theme.BrandPrimary
-import com.jonathanlee.popcorn.ui.theme.BrandSurface
 import com.jonathanlee.popcorn.ui.theme.PopcornTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,7 +89,7 @@ fun SearchBar(
         mutableStateOf(hint.isNotEmpty())
     }
 
-    Box(modifier = modifier.background(BrandSurface)) {
+    Box(modifier = modifier.background(Color.Transparent)) {
         BasicTextField(
             value = text,
             onValueChange = {

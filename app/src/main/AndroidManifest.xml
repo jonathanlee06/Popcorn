@@ -27,7 +27,7 @@
             android:theme="@style/DetailTheme"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.detail.cast.CastListActivity"
+            android:name=".ui.detail.cast.list.CastListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.search.SearchActivity"
